@@ -1,0 +1,3371 @@
+{
+  "version": 3,
+  "sources": [
+    "../../vote_chain/contract.py"
+  ],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AA+BA;;;AAGQ;AAA+B;AAA/B;AAEA;AAA0B;AAA1B;AACA;;AAA0B;AAA1B;AACA;;AAA0B;AAA1B;AAEA;;AAAwB;AAAxB;AAEA;;AAAwB;AAAxB;;AAzBR;;;AAAA;;AAAA;;;AAAA;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;;;;;AAAA;AAAA;AAgEK;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAQA;;AAAA;AAAA;AAAA;AAAA;;AAAA;AAxEL;;;AAAA;AAAA;;AAAA;;AAAA;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AAwEK;;;AAAA;AAAA;AA0BA;;AAAA;AAAA;AAAA;AAAA;;AAAA;AAlGL;;;AAAA;AAAA;;AAkGK;;;AAAA;AAAA;AAiCA;;AAAA;AAAA;AAAA;;AAAA;AAnIL;;;AAAA;;;AAAA;;;AAAA;AAAA;;;AAAA;;;AAAA;;;AAAA;AAmIK;;;AAAA;AAAA;AAmCA;;AAAA;AAAA;AAAA;;AAAA;AAtKL;;;AAAA;AAAA;;AAAA;;;AAAA;AAsKK;;;AAAA;AAAA;AAtKL;AAAA;AAgEA;;;AAEQ;;AAAc;;AAAd;AACA;;AAAmB;;AAAnB;AACA;;;;;;;;;;;;;;;;;;;;AAA0B;;AAA1B;AACA;;AAAuB;;AAAvB;;AAGR;;;AAIY;;AAAA;;AAAkB;;;AAAlB;AADJ;AAII;;AAAA;;AAAA;;AAAA;AADJ;AAII;;AAAA;;AAAoB;AAAA;;AAAA;AAAA;AAApB;AADJ;AAKA;;AAAA;AAAkC;AAAlC;AAGA;;AAAA;AAAkC;AAAlC;AAGA;AAAA;AAAA;AAAA;AAAgC;AAAhC;AAAA;AAAA;AAAA;AAG+C;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAA/C;;AAtDR;;;AAgBY;;AAdoB;;;;AAcpB;AALkB;;;;AAKlB;AADJ;AA0CR;;;AAIwB;AAAA;;AAAA;AAAA;AADT;;AAAA;AAAA;AAAP;AAIO;;AAAA;AAAA;AAAA;AAAA;AAAA;;;AACH;;AAAA;AAAA;AAAA;AAAA;AAAmC;AAAnC;AAAA;;;AACI;;AAA0B;AAAA;;AAAA;AAAA;AAA1B;AADJ;;;;;;;;AADJ;AAMA;;AAAI;AAAJ;AACA;;AAAI;AAAJ;AAGA;AAAA;AAAA;AAAA;AAAgC;AAAhC;AAAA;AAAA;AAAA;AAIA;AAEW;;;AAHG;AAGH;AACA;AAAA;;AAAA;AAAA;AAEF;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AALT;;;AADc;;;AACd;AASkD;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAAlD;;AAGR;;;AAUY;;AAAc;AAAA;;AAAA;AAAA;AAAd;AADJ;AAKI;;AAAA;;AAAA;AADJ;AAIO;;AAAA;;AAAA;AAA6C;;;;AAA7C;AAAP;AAIO;AAAA;;AAAA;AAAA;AAAA;AAAP;AAGA;;AAAA;;AAAA;AACA;;AAAA;;AAAA;AAGA;;AAAwB;AAAxB;AAGyB;;;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAAzB;AACuB;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAAvB;;AAGR;;;AAIwB;AAAA;;AAAA;AAAA;AADT;;AAAA;AAAA;AAAP;AAIO;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAP;AAKI;;AAAU;AAAV;AAAA;AAAA;;;AAAuB;;AAAU;AAAV;AAAvB;;;AAA8C;;AAAU;;AAAV;AAA9C;;;;;;;;AADJ;AAKI;;AAA0B;AAAA;;AAAA;AAAA;AAA1B;AADJ;AAIO;;AAA0B;AAAA;;AAAA;AAAA;AAA1B;AAAP;AAGA;;AAAA;AAAkC;AAAlC;AAGA;AAAA;;AAAA;AAAA;AAAyB;AAAzB;AAAA;;AAAA;AAAA;AAGR;;AAAA;;;AACY;AAAA;AAAA;AAAA;AAA2B;AAA3B;AAAA;AAAA;AAAA;AACA;;AAAA;AAAkC;AAAlC;;;;AACC;;AAAU;AAAV;AAAb;;;AACY;AAAA;;AAAA;AAAA;AAA2B;AAA3B;AAAA;;AAAA;AAAA;AACA;;AAAA;AAAkC;AAAlC;;;;AAEA;AAAA;;AAAA;AAAA;AAA2B;AAA3B;AAAA;;AAAA;AAAA;AACA;;AAAA;AAAkC;;AAAlC;AAGiD;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAArD;AAC+B;;AAAA;AAAA;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAA/B;",
+  "op_pc_offset": 0,
+  "pc_events": {
+    "1": {
+      "subroutine": "smart_contracts.vote_chain.contract.VoteChain.approval_program",
+      "params": {},
+      "block": "smart_contracts.vote_chain.contract.VoteChain.approval_program",
+      "stack_in": [],
+      "op": "intcblock 0 1 2 1000"
+    },
+    "8": {
+      "op": "bytecblock \"vote_status\" \"total_accounts_opted_in\" \"vote_choice\" \"choice1_vote_count\" \"choice2_vote_count\" \"choice3_vote_count\" \"total_vote_count\" \"vote_dates_final\" \"app_id\" \"app_address\" \"vote_end_date_unix\" \"creator_address\" \"vote_start_date_unix\""
+    },
+    "224": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "226": {
+      "op": "bnz main_after_if_else@2",
+      "stack_out": []
+    },
+    "229": {
+      "callsub": "smart_contracts.vote_chain.contract.VoteChain.__init__",
+      "op": "callsub __init__"
+    },
+    "232": {
+      "block": "main_after_if_else@2",
+      "stack_in": [],
+      "callsub": "smart_contracts.vote_chain.contract.VoteChain.__puya_arc4_router__",
+      "op": "callsub __puya_arc4_router__",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0"
+      ]
+    },
+    "235": {
+      "op": "return",
+      "stack_out": []
+    },
+    "236": {
+      "subroutine": "smart_contracts.vote_chain.contract.VoteChain.__init__",
+      "params": {},
+      "block": "__init__",
+      "stack_in": [],
+      "op": "proto 0 0"
+    },
+    "239": {
+      "op": "bytec_1 // \"total_accounts_opted_in\"",
+      "defined_out": [
+        "\"total_accounts_opted_in\""
+      ],
+      "stack_out": [
+        "\"total_accounts_opted_in\""
+      ]
+    },
+    "240": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "\"total_accounts_opted_in\"",
+        "0"
+      ],
+      "stack_out": [
+        "\"total_accounts_opted_in\"",
+        "0"
+      ]
+    },
+    "241": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "242": {
+      "op": "bytec_3 // \"choice1_vote_count\"",
+      "defined_out": [
+        "\"choice1_vote_count\""
+      ],
+      "stack_out": [
+        "\"choice1_vote_count\""
+      ]
+    },
+    "243": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "\"choice1_vote_count\"",
+        "0"
+      ]
+    },
+    "244": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "245": {
+      "op": "bytec 4 // \"choice2_vote_count\"",
+      "defined_out": [
+        "\"choice2_vote_count\""
+      ],
+      "stack_out": [
+        "\"choice2_vote_count\""
+      ]
+    },
+    "247": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "\"choice2_vote_count\"",
+        "0"
+      ]
+    },
+    "248": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "249": {
+      "op": "bytec 5 // \"choice3_vote_count\"",
+      "defined_out": [
+        "\"choice3_vote_count\""
+      ],
+      "stack_out": [
+        "\"choice3_vote_count\""
+      ]
+    },
+    "251": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "\"choice3_vote_count\"",
+        "0"
+      ]
+    },
+    "252": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "253": {
+      "op": "bytec 6 // \"total_vote_count\"",
+      "defined_out": [
+        "\"total_vote_count\""
+      ],
+      "stack_out": [
+        "\"total_vote_count\""
+      ]
+    },
+    "255": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "\"total_vote_count\"",
+        "0"
+      ]
+    },
+    "256": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "257": {
+      "op": "bytec 7 // \"vote_dates_final\"",
+      "defined_out": [
+        "\"vote_dates_final\""
+      ],
+      "stack_out": [
+        "\"vote_dates_final\""
+      ]
+    },
+    "259": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "\"vote_dates_final\"",
+        "0"
+      ]
+    },
+    "260": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "261": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "262": {
+      "subroutine": "smart_contracts.vote_chain.contract.VoteChain.__puya_arc4_router__",
+      "params": {},
+      "block": "__puya_arc4_router__",
+      "stack_in": [],
+      "op": "proto 0 1"
+    },
+    "265": {
+      "op": "txn NumAppArgs",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "267": {
+      "op": "bz __puya_arc4_router___after_if_else@10",
+      "stack_out": []
+    },
+    "270": {
+      "op": "pushbytess 0x0484c231 0x90c936a8 0xb3fb275b 0xb1b28d75 0x5dcb0f10 // method \"create_app()void\", method \"local_storage(account,pay)void\", method \"opt_out(account)void\", method \"set_vote_dates(string,uint64,string,uint64)void\", method \"cast_vote(account,uint64)void\""
+    },
+    "297": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(cast_vote(account,uint64)void)",
+        "Method(create_app()void)",
+        "Method(local_storage(account,pay)void)",
+        "Method(opt_out(account)void)",
+        "Method(set_vote_dates(string,uint64,string,uint64)void)",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "Method(create_app()void)",
+        "Method(local_storage(account,pay)void)",
+        "Method(opt_out(account)void)",
+        "Method(set_vote_dates(string,uint64,string,uint64)void)",
+        "Method(cast_vote(account,uint64)void)",
+        "tmp%2#0"
+      ]
+    },
+    "300": {
+      "op": "match __puya_arc4_router___create_app_route@2 __puya_arc4_router___local_storage_route@3 __puya_arc4_router___opt_out_route@4 __puya_arc4_router___set_vote_dates_route@5 __puya_arc4_router___cast_vote_route@6",
+      "stack_out": []
+    },
+    "312": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "0"
+      ]
+    },
+    "313": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "314": {
+      "block": "__puya_arc4_router___create_app_route@2",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%3#0"
+      ]
+    },
+    "316": {
+      "op": "!",
+      "defined_out": [
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "tmp%4#0"
+      ]
+    },
+    "317": {
+      "error": "OnCompletion is not NoOp",
+      "op": "assert // OnCompletion is not NoOp",
+      "stack_out": []
+    },
+    "318": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "tmp%5#0"
+      ]
+    },
+    "320": {
+      "op": "!",
+      "defined_out": [
+        "tmp%6#0"
+      ],
+      "stack_out": [
+        "tmp%6#0"
+      ]
+    },
+    "321": {
+      "error": "can only call when creating",
+      "op": "assert // can only call when creating",
+      "stack_out": []
+    },
+    "322": {
+      "callsub": "smart_contracts.vote_chain.contract.VoteChain.create_app",
+      "op": "callsub create_app"
+    },
+    "325": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "326": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "327": {
+      "block": "__puya_arc4_router___local_storage_route@3",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%7#0"
+      ],
+      "stack_out": [
+        "tmp%7#0"
+      ]
+    },
+    "329": {
+      "op": "intc_1 // OptIn",
+      "defined_out": [
+        "OptIn",
+        "tmp%7#0"
+      ],
+      "stack_out": [
+        "tmp%7#0",
+        "OptIn"
+      ]
+    },
+    "330": {
+      "op": "==",
+      "defined_out": [
+        "tmp%8#0"
+      ],
+      "stack_out": [
+        "tmp%8#0"
+      ]
+    },
+    "331": {
+      "error": "OnCompletion is not OptIn",
+      "op": "assert // OnCompletion is not OptIn",
+      "stack_out": []
+    },
+    "332": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%9#0"
+      ],
+      "stack_out": [
+        "tmp%9#0"
+      ]
+    },
+    "334": {
+      "error": "can only call when not creating",
+      "op": "assert // can only call when not creating",
+      "stack_out": []
+    },
+    "335": {
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "tmp%11#0"
+      ],
+      "stack_out": [
+        "tmp%11#0"
+      ]
+    },
+    "338": {
+      "op": "btoi",
+      "defined_out": [
+        "tmp%12#0"
+      ],
+      "stack_out": [
+        "tmp%12#0"
+      ]
+    },
+    "339": {
+      "op": "txnas Accounts",
+      "defined_out": [
+        "tmp%13#0"
+      ],
+      "stack_out": [
+        "tmp%13#0"
+      ]
+    },
+    "341": {
+      "op": "txn GroupIndex",
+      "defined_out": [
+        "tmp%13#0",
+        "tmp%14#0"
+      ],
+      "stack_out": [
+        "tmp%13#0",
+        "tmp%14#0"
+      ]
+    },
+    "343": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1",
+        "tmp%13#0",
+        "tmp%14#0"
+      ],
+      "stack_out": [
+        "tmp%13#0",
+        "tmp%14#0",
+        "1"
+      ]
+    },
+    "344": {
+      "op": "-",
+      "defined_out": [
+        "gtxn_idx%0#0",
+        "tmp%13#0"
+      ],
+      "stack_out": [
+        "tmp%13#0",
+        "gtxn_idx%0#0"
+      ]
+    },
+    "345": {
+      "op": "dup",
+      "defined_out": [
+        "gtxn_idx%0#0",
+        "gtxn_idx%0#0 (copy)",
+        "tmp%13#0"
+      ],
+      "stack_out": [
+        "tmp%13#0",
+        "gtxn_idx%0#0",
+        "gtxn_idx%0#0 (copy)"
+      ]
+    },
+    "346": {
+      "op": "gtxns TypeEnum",
+      "defined_out": [
+        "gtxn_idx%0#0",
+        "gtxn_type%0#0",
+        "tmp%13#0"
+      ],
+      "stack_out": [
+        "tmp%13#0",
+        "gtxn_idx%0#0",
+        "gtxn_type%0#0"
+      ]
+    },
+    "348": {
+      "op": "intc_1 // pay",
+      "defined_out": [
+        "gtxn_idx%0#0",
+        "gtxn_type%0#0",
+        "pay",
+        "tmp%13#0"
+      ],
+      "stack_out": [
+        "tmp%13#0",
+        "gtxn_idx%0#0",
+        "gtxn_type%0#0",
+        "pay"
+      ]
+    },
+    "349": {
+      "op": "==",
+      "defined_out": [
+        "gtxn_idx%0#0",
+        "gtxn_type_matches%0#0",
+        "tmp%13#0"
+      ],
+      "stack_out": [
+        "tmp%13#0",
+        "gtxn_idx%0#0",
+        "gtxn_type_matches%0#0"
+      ]
+    },
+    "350": {
+      "error": "transaction type is pay",
+      "op": "assert // transaction type is pay",
+      "stack_out": [
+        "tmp%13#0",
+        "gtxn_idx%0#0"
+      ]
+    },
+    "351": {
+      "callsub": "smart_contracts.vote_chain.contract.VoteChain.local_storage",
+      "op": "callsub local_storage",
+      "stack_out": []
+    },
+    "354": {
+      "op": "intc_1 // 1",
+      "stack_out": [
+        "1"
+      ]
+    },
+    "355": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "356": {
+      "block": "__puya_arc4_router___opt_out_route@4",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%15#0"
+      ],
+      "stack_out": [
+        "tmp%15#0"
+      ]
+    },
+    "358": {
+      "op": "intc_2 // CloseOut",
+      "defined_out": [
+        "CloseOut",
+        "tmp%15#0"
+      ],
+      "stack_out": [
+        "tmp%15#0",
+        "CloseOut"
+      ]
+    },
+    "359": {
+      "op": "==",
+      "defined_out": [
+        "tmp%16#0"
+      ],
+      "stack_out": [
+        "tmp%16#0"
+      ]
+    },
+    "360": {
+      "error": "OnCompletion is not CloseOut",
+      "op": "assert // OnCompletion is not CloseOut",
+      "stack_out": []
+    },
+    "361": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%17#0"
+      ],
+      "stack_out": [
+        "tmp%17#0"
+      ]
+    },
+    "363": {
+      "error": "can only call when not creating",
+      "op": "assert // can only call when not creating",
+      "stack_out": []
+    },
+    "364": {
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "tmp%19#0"
+      ],
+      "stack_out": [
+        "tmp%19#0"
+      ]
+    },
+    "367": {
+      "op": "btoi",
+      "defined_out": [
+        "tmp%20#0"
+      ],
+      "stack_out": [
+        "tmp%20#0"
+      ]
+    },
+    "368": {
+      "op": "txnas Accounts",
+      "defined_out": [
+        "tmp%21#0"
+      ],
+      "stack_out": [
+        "tmp%21#0"
+      ]
+    },
+    "370": {
+      "callsub": "smart_contracts.vote_chain.contract.VoteChain.opt_out",
+      "op": "callsub opt_out",
+      "stack_out": []
+    },
+    "373": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "374": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "375": {
+      "block": "__puya_arc4_router___set_vote_dates_route@5",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%22#0"
+      ],
+      "stack_out": [
+        "tmp%22#0"
+      ]
+    },
+    "377": {
+      "op": "!",
+      "defined_out": [
+        "tmp%23#0"
+      ],
+      "stack_out": [
+        "tmp%23#0"
+      ]
+    },
+    "378": {
+      "error": "OnCompletion is not NoOp",
+      "op": "assert // OnCompletion is not NoOp",
+      "stack_out": []
+    },
+    "379": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%24#0"
+      ],
+      "stack_out": [
+        "tmp%24#0"
+      ]
+    },
+    "381": {
+      "error": "can only call when not creating",
+      "op": "assert // can only call when not creating",
+      "stack_out": []
+    },
+    "382": {
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "tmp%26#0"
+      ],
+      "stack_out": [
+        "tmp%26#0"
+      ]
+    },
+    "385": {
+      "op": "extract 2 0",
+      "defined_out": [
+        "tmp%27#0"
+      ],
+      "stack_out": [
+        "tmp%27#0"
+      ]
+    },
+    "388": {
+      "op": "txna ApplicationArgs 2",
+      "defined_out": [
+        "tmp%27#0",
+        "tmp%28#0"
+      ],
+      "stack_out": [
+        "tmp%27#0",
+        "tmp%28#0"
+      ]
+    },
+    "391": {
+      "op": "btoi",
+      "defined_out": [
+        "tmp%27#0",
+        "tmp%29#0"
+      ],
+      "stack_out": [
+        "tmp%27#0",
+        "tmp%29#0"
+      ]
+    },
+    "392": {
+      "op": "txna ApplicationArgs 3",
+      "defined_out": [
+        "tmp%27#0",
+        "tmp%29#0",
+        "tmp%30#0"
+      ],
+      "stack_out": [
+        "tmp%27#0",
+        "tmp%29#0",
+        "tmp%30#0"
+      ]
+    },
+    "395": {
+      "op": "extract 2 0",
+      "defined_out": [
+        "tmp%27#0",
+        "tmp%29#0",
+        "tmp%31#0"
+      ],
+      "stack_out": [
+        "tmp%27#0",
+        "tmp%29#0",
+        "tmp%31#0"
+      ]
+    },
+    "398": {
+      "op": "txna ApplicationArgs 4",
+      "defined_out": [
+        "tmp%27#0",
+        "tmp%29#0",
+        "tmp%31#0",
+        "tmp%32#0"
+      ],
+      "stack_out": [
+        "tmp%27#0",
+        "tmp%29#0",
+        "tmp%31#0",
+        "tmp%32#0"
+      ]
+    },
+    "401": {
+      "op": "btoi",
+      "defined_out": [
+        "tmp%27#0",
+        "tmp%29#0",
+        "tmp%31#0",
+        "tmp%33#0"
+      ],
+      "stack_out": [
+        "tmp%27#0",
+        "tmp%29#0",
+        "tmp%31#0",
+        "tmp%33#0"
+      ]
+    },
+    "402": {
+      "callsub": "smart_contracts.vote_chain.contract.VoteChain.set_vote_dates",
+      "op": "callsub set_vote_dates",
+      "stack_out": []
+    },
+    "405": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "406": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "407": {
+      "block": "__puya_arc4_router___cast_vote_route@6",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%34#0"
+      ],
+      "stack_out": [
+        "tmp%34#0"
+      ]
+    },
+    "409": {
+      "op": "!",
+      "defined_out": [
+        "tmp%35#0"
+      ],
+      "stack_out": [
+        "tmp%35#0"
+      ]
+    },
+    "410": {
+      "error": "OnCompletion is not NoOp",
+      "op": "assert // OnCompletion is not NoOp",
+      "stack_out": []
+    },
+    "411": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%36#0"
+      ],
+      "stack_out": [
+        "tmp%36#0"
+      ]
+    },
+    "413": {
+      "error": "can only call when not creating",
+      "op": "assert // can only call when not creating",
+      "stack_out": []
+    },
+    "414": {
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "tmp%38#0"
+      ],
+      "stack_out": [
+        "tmp%38#0"
+      ]
+    },
+    "417": {
+      "op": "btoi",
+      "defined_out": [
+        "tmp%39#0"
+      ],
+      "stack_out": [
+        "tmp%39#0"
+      ]
+    },
+    "418": {
+      "op": "txnas Accounts",
+      "defined_out": [
+        "tmp%40#0"
+      ],
+      "stack_out": [
+        "tmp%40#0"
+      ]
+    },
+    "420": {
+      "op": "txna ApplicationArgs 2",
+      "defined_out": [
+        "tmp%40#0",
+        "tmp%41#0"
+      ],
+      "stack_out": [
+        "tmp%40#0",
+        "tmp%41#0"
+      ]
+    },
+    "423": {
+      "op": "btoi",
+      "defined_out": [
+        "tmp%40#0",
+        "tmp%42#0"
+      ],
+      "stack_out": [
+        "tmp%40#0",
+        "tmp%42#0"
+      ]
+    },
+    "424": {
+      "callsub": "smart_contracts.vote_chain.contract.VoteChain.cast_vote",
+      "op": "callsub cast_vote",
+      "stack_out": []
+    },
+    "427": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "428": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "429": {
+      "block": "__puya_arc4_router___after_if_else@10",
+      "stack_in": [],
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "0"
+      ]
+    },
+    "430": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "431": {
+      "subroutine": "smart_contracts.vote_chain.contract.VoteChain.create_app",
+      "params": {},
+      "block": "create_app",
+      "stack_in": [],
+      "op": "proto 0 0"
+    },
+    "434": {
+      "op": "bytec 8 // \"app_id\""
+    },
+    "436": {
+      "op": "global CurrentApplicationID",
+      "defined_out": [
+        "\"app_id\"",
+        "new_state_value%0#0"
+      ],
+      "stack_out": [
+        "\"app_id\"",
+        "new_state_value%0#0"
+      ]
+    },
+    "438": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "439": {
+      "op": "bytec 9 // \"app_address\""
+    },
+    "441": {
+      "op": "global CurrentApplicationAddress",
+      "defined_out": [
+        "\"app_address\"",
+        "new_state_value%1#0"
+      ],
+      "stack_out": [
+        "\"app_address\"",
+        "new_state_value%1#0"
+      ]
+    },
+    "443": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "444": {
+      "op": "pushbytes \"app_init_timestamp\""
+    },
+    "464": {
+      "op": "global LatestTimestamp",
+      "defined_out": [
+        "\"app_init_timestamp\"",
+        "new_state_value%2#0"
+      ],
+      "stack_out": [
+        "\"app_init_timestamp\"",
+        "new_state_value%2#0"
+      ]
+    },
+    "466": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "467": {
+      "op": "bytec 11 // \"creator_address\""
+    },
+    "469": {
+      "op": "global CreatorAddress",
+      "defined_out": [
+        "\"creator_address\"",
+        "new_state_value%3#0"
+      ],
+      "stack_out": [
+        "\"creator_address\"",
+        "new_state_value%3#0"
+      ]
+    },
+    "471": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "472": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "473": {
+      "subroutine": "smart_contracts.vote_chain.contract.VoteChain.local_storage",
+      "params": {
+        "account#0": "bytes",
+        "mbr_pay#0": "uint64"
+      },
+      "block": "local_storage",
+      "stack_in": [],
+      "op": "proto 2 0"
+    },
+    "476": {
+      "op": "frame_dig -1",
+      "defined_out": [
+        "mbr_pay#0 (copy)"
+      ],
+      "stack_out": [
+        "mbr_pay#0 (copy)"
+      ]
+    },
+    "478": {
+      "op": "gtxns Amount",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "480": {
+      "callsub": "smart_contracts.vote_chain.contract.VoteChain.calc_mbr",
+      "op": "callsub calc_mbr",
+      "defined_out": [
+        "tmp%0#0",
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "tmp%1#0"
+      ]
+    },
+    "483": {
+      "op": "==",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "484": {
+      "error": "MBR payment must meet the minimum requirement amount.",
+      "op": "assert // MBR payment must meet the minimum requirement amount.",
+      "stack_out": []
+    },
+    "485": {
+      "op": "frame_dig -1",
+      "stack_out": [
+        "mbr_pay#0 (copy)"
+      ]
+    },
+    "487": {
+      "op": "gtxns Sender",
+      "defined_out": [
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%3#0"
+      ]
+    },
+    "489": {
+      "op": "frame_dig -2",
+      "defined_out": [
+        "account#0 (copy)",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%3#0",
+        "account#0 (copy)"
+      ]
+    },
+    "491": {
+      "op": "==",
+      "defined_out": [
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "tmp%4#0"
+      ]
+    },
+    "492": {
+      "error": "MBR payment sender must match the account opting in.",
+      "op": "assert // MBR payment sender must match the account opting in.",
+      "stack_out": []
+    },
+    "493": {
+      "op": "frame_dig -1",
+      "stack_out": [
+        "mbr_pay#0 (copy)"
+      ]
+    },
+    "495": {
+      "op": "gtxns Receiver",
+      "defined_out": [
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "tmp%5#0"
+      ]
+    },
+    "497": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "tmp%5#0",
+        "0"
+      ]
+    },
+    "498": {
+      "op": "bytec 9 // \"app_address\"",
+      "defined_out": [
+        "\"app_address\"",
+        "0",
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "tmp%5#0",
+        "0",
+        "\"app_address\""
+      ]
+    },
+    "500": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%0#0",
+        "maybe_value%0#0",
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "tmp%5#0",
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "501": {
+      "error": "check self.app_address exists",
+      "op": "assert // check self.app_address exists",
+      "stack_out": [
+        "tmp%5#0",
+        "maybe_value%0#0"
+      ]
+    },
+    "502": {
+      "op": "==",
+      "defined_out": [
+        "tmp%6#0"
+      ],
+      "stack_out": [
+        "tmp%6#0"
+      ]
+    },
+    "503": {
+      "error": "MBR payment reciever must be the App address.",
+      "op": "assert // MBR payment reciever must be the App address.",
+      "stack_out": []
+    },
+    "504": {
+      "op": "frame_dig -2",
+      "stack_out": [
+        "account#0 (copy)"
+      ]
+    },
+    "506": {
+      "op": "bytec_0 // \"vote_status\"",
+      "defined_out": [
+        "\"vote_status\"",
+        "account#0 (copy)"
+      ],
+      "stack_out": [
+        "account#0 (copy)",
+        "\"vote_status\""
+      ]
+    },
+    "507": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "account#0 (copy)",
+        "\"vote_status\"",
+        "0"
+      ]
+    },
+    "508": {
+      "op": "app_local_put",
+      "stack_out": []
+    },
+    "509": {
+      "op": "frame_dig -2",
+      "stack_out": [
+        "account#0 (copy)"
+      ]
+    },
+    "511": {
+      "op": "bytec_2 // \"vote_choice\"",
+      "defined_out": [
+        "\"vote_choice\"",
+        "account#0 (copy)"
+      ],
+      "stack_out": [
+        "account#0 (copy)",
+        "\"vote_choice\""
+      ]
+    },
+    "512": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "account#0 (copy)",
+        "\"vote_choice\"",
+        "0"
+      ]
+    },
+    "513": {
+      "op": "app_local_put",
+      "stack_out": []
+    },
+    "514": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "0"
+      ]
+    },
+    "515": {
+      "op": "bytec_1 // \"total_accounts_opted_in\"",
+      "defined_out": [
+        "\"total_accounts_opted_in\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"total_accounts_opted_in\""
+      ]
+    },
+    "516": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%1#0",
+        "maybe_value%1#0"
+      ],
+      "stack_out": [
+        "maybe_value%1#0",
+        "maybe_exists%1#0"
+      ]
+    },
+    "517": {
+      "error": "check self.total_accounts_opted_in exists",
+      "op": "assert // check self.total_accounts_opted_in exists",
+      "stack_out": [
+        "maybe_value%1#0"
+      ]
+    },
+    "518": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1",
+        "maybe_value%1#0"
+      ],
+      "stack_out": [
+        "maybe_value%1#0",
+        "1"
+      ]
+    },
+    "519": {
+      "op": "+",
+      "defined_out": [
+        "new_state_value%0#0"
+      ],
+      "stack_out": [
+        "new_state_value%0#0"
+      ]
+    },
+    "520": {
+      "op": "bytec_1 // \"total_accounts_opted_in\"",
+      "stack_out": [
+        "new_state_value%0#0",
+        "\"total_accounts_opted_in\""
+      ]
+    },
+    "521": {
+      "op": "swap",
+      "stack_out": [
+        "\"total_accounts_opted_in\"",
+        "new_state_value%0#0"
+      ]
+    },
+    "522": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "523": {
+      "op": "pushbytes \"Opt-in successful for account address: \"",
+      "defined_out": [
+        "\"Opt-in successful for account address: \""
+      ],
+      "stack_out": [
+        "\"Opt-in successful for account address: \""
+      ]
+    },
+    "564": {
+      "op": "frame_dig -2",
+      "stack_out": [
+        "\"Opt-in successful for account address: \"",
+        "account#0 (copy)"
+      ]
+    },
+    "566": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%8#0"
+      ],
+      "stack_out": [
+        "tmp%8#0"
+      ]
+    },
+    "567": {
+      "op": "log",
+      "stack_out": []
+    },
+    "568": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "569": {
+      "subroutine": "smart_contracts.vote_chain.contract.VoteChain.calc_mbr",
+      "params": {},
+      "block": "calc_mbr",
+      "stack_in": [],
+      "op": "proto 0 1"
+    },
+    "572": {
+      "op": "global MinBalance",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "574": {
+      "op": "pushint 100000 // 100000",
+      "defined_out": [
+        "100000",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "100000"
+      ]
+    },
+    "578": {
+      "op": "+",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0"
+      ]
+    },
+    "579": {
+      "op": "pushint 57000 // 57000",
+      "defined_out": [
+        "57000",
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0",
+        "57000"
+      ]
+    },
+    "583": {
+      "op": "+",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "584": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "585": {
+      "subroutine": "smart_contracts.vote_chain.contract.VoteChain.opt_out",
+      "params": {
+        "account#0": "bytes"
+      },
+      "block": "opt_out",
+      "stack_in": [],
+      "op": "proto 1 0"
+    },
+    "588": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "0"
+      ]
+    },
+    "589": {
+      "op": "bytec 8 // \"app_id\"",
+      "defined_out": [
+        "\"app_id\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"app_id\""
+      ]
+    },
+    "591": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%0#0",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "592": {
+      "error": "check self.app_id exists",
+      "op": "assert // check self.app_id exists",
+      "stack_out": [
+        "maybe_value%0#0"
+      ]
+    },
+    "593": {
+      "op": "frame_dig -1",
+      "defined_out": [
+        "account#0 (copy)",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "maybe_value%0#0",
+        "account#0 (copy)"
+      ]
+    },
+    "595": {
+      "op": "swap",
+      "stack_out": [
+        "account#0 (copy)",
+        "maybe_value%0#0"
+      ]
+    },
+    "596": {
+      "op": "app_opted_in",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "597": {
+      "error": "Account must first be opted-in in order to close out.",
+      "op": "assert // Account must first be opted-in in order to close out.",
+      "stack_out": []
+    },
+    "598": {
+      "op": "frame_dig -1",
+      "stack_out": [
+        "account#0 (copy)"
+      ]
+    },
+    "600": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "account#0 (copy)",
+        "0"
+      ]
+    },
+    "601": {
+      "op": "bytec_0 // \"vote_status\"",
+      "defined_out": [
+        "\"vote_status\"",
+        "0",
+        "account#0 (copy)"
+      ],
+      "stack_out": [
+        "account#0 (copy)",
+        "0",
+        "\"vote_status\""
+      ]
+    },
+    "602": {
+      "op": "app_local_get_ex",
+      "defined_out": [
+        "maybe_exists%1#0",
+        "maybe_value%1#0"
+      ],
+      "stack_out": [
+        "maybe_value%1#0",
+        "maybe_exists%1#0"
+      ]
+    },
+    "603": {
+      "error": "check self.local_vote_status exists for account",
+      "op": "assert // check self.local_vote_status exists for account",
+      "stack_out": [
+        "maybe_value%1#0"
+      ]
+    },
+    "604": {
+      "op": "bz opt_out_bool_true@3",
+      "stack_out": []
+    },
+    "607": {
+      "op": "frame_dig -1",
+      "stack_out": [
+        "account#0 (copy)"
+      ]
+    },
+    "609": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "account#0 (copy)",
+        "0"
+      ]
+    },
+    "610": {
+      "op": "bytec_0 // \"vote_status\"",
+      "stack_out": [
+        "account#0 (copy)",
+        "0",
+        "\"vote_status\""
+      ]
+    },
+    "611": {
+      "op": "app_local_get_ex",
+      "defined_out": [
+        "maybe_exists%2#0",
+        "maybe_value%2#0"
+      ],
+      "stack_out": [
+        "maybe_value%2#0",
+        "maybe_exists%2#0"
+      ]
+    },
+    "612": {
+      "error": "check self.local_vote_status exists for account",
+      "op": "assert // check self.local_vote_status exists for account",
+      "stack_out": [
+        "maybe_value%2#0"
+      ]
+    },
+    "613": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1",
+        "maybe_value%2#0"
+      ],
+      "stack_out": [
+        "maybe_value%2#0",
+        "1"
+      ]
+    },
+    "614": {
+      "op": "==",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "615": {
+      "op": "bz opt_out_bool_false@4",
+      "stack_out": []
+    },
+    "618": {
+      "op": "global LatestTimestamp",
+      "defined_out": [
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%3#0"
+      ]
+    },
+    "620": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "tmp%3#0",
+        "0"
+      ]
+    },
+    "621": {
+      "op": "bytec 10 // \"vote_end_date_unix\"",
+      "defined_out": [
+        "\"vote_end_date_unix\"",
+        "0",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%3#0",
+        "0",
+        "\"vote_end_date_unix\""
+      ]
+    },
+    "623": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%3#0",
+        "maybe_value%3#0",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%3#0",
+        "maybe_value%3#0",
+        "maybe_exists%3#0"
+      ]
+    },
+    "624": {
+      "error": "check self.vote_end_date_unix exists",
+      "op": "assert // check self.vote_end_date_unix exists",
+      "stack_out": [
+        "tmp%3#0",
+        "maybe_value%3#0"
+      ]
+    },
+    "625": {
+      "op": ">",
+      "defined_out": [
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "tmp%4#0"
+      ]
+    },
+    "626": {
+      "op": "bz opt_out_bool_false@4",
+      "stack_out": []
+    },
+    "629": {
+      "block": "opt_out_bool_true@3",
+      "stack_in": [],
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "or_result%0#0"
+      ],
+      "stack_out": [
+        "or_result%0#0"
+      ]
+    },
+    "630": {
+      "op": "b opt_out_bool_merge@5"
+    },
+    "633": {
+      "block": "opt_out_bool_false@4",
+      "stack_in": [],
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "or_result%0#0"
+      ],
+      "stack_out": [
+        "or_result%0#0"
+      ]
+    },
+    "634": {
+      "block": "opt_out_bool_merge@5",
+      "stack_in": [
+        "or_result%0#0"
+      ],
+      "error": "Can only opt out when voting period expires or if you haven't already voted.",
+      "op": "assert // Can only opt out when voting period expires or if you haven't already voted.",
+      "defined_out": [],
+      "stack_out": []
+    },
+    "635": {
+      "op": "frame_dig -1",
+      "defined_out": [
+        "account#0 (copy)"
+      ],
+      "stack_out": [
+        "account#0 (copy)"
+      ]
+    },
+    "637": {
+      "op": "bytec_0 // \"vote_status\"",
+      "defined_out": [
+        "\"vote_status\"",
+        "account#0 (copy)"
+      ],
+      "stack_out": [
+        "account#0 (copy)",
+        "\"vote_status\""
+      ]
+    },
+    "638": {
+      "op": "app_local_del",
+      "stack_out": []
+    },
+    "639": {
+      "op": "frame_dig -1",
+      "stack_out": [
+        "account#0 (copy)"
+      ]
+    },
+    "641": {
+      "op": "bytec_2 // \"vote_choice\"",
+      "defined_out": [
+        "\"vote_choice\"",
+        "account#0 (copy)"
+      ],
+      "stack_out": [
+        "account#0 (copy)",
+        "\"vote_choice\""
+      ]
+    },
+    "642": {
+      "op": "app_local_del",
+      "stack_out": []
+    },
+    "643": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "0"
+      ]
+    },
+    "644": {
+      "op": "bytec_1 // \"total_accounts_opted_in\"",
+      "defined_out": [
+        "\"total_accounts_opted_in\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"total_accounts_opted_in\""
+      ]
+    },
+    "645": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%4#0",
+        "maybe_value%4#0"
+      ],
+      "stack_out": [
+        "maybe_value%4#0",
+        "maybe_exists%4#0"
+      ]
+    },
+    "646": {
+      "error": "check self.total_accounts_opted_in exists",
+      "op": "assert // check self.total_accounts_opted_in exists",
+      "stack_out": [
+        "maybe_value%4#0"
+      ]
+    },
+    "647": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1",
+        "maybe_value%4#0"
+      ],
+      "stack_out": [
+        "maybe_value%4#0",
+        "1"
+      ]
+    },
+    "648": {
+      "op": "-",
+      "defined_out": [
+        "new_state_value%0#0"
+      ],
+      "stack_out": [
+        "new_state_value%0#0"
+      ]
+    },
+    "649": {
+      "op": "bytec_1 // \"total_accounts_opted_in\"",
+      "stack_out": [
+        "new_state_value%0#0",
+        "\"total_accounts_opted_in\""
+      ]
+    },
+    "650": {
+      "op": "swap",
+      "stack_out": [
+        "\"total_accounts_opted_in\"",
+        "new_state_value%0#0"
+      ]
+    },
+    "651": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "652": {
+      "op": "itxn_begin"
+    },
+    "653": {
+      "callsub": "smart_contracts.vote_chain.contract.VoteChain.calc_mbr",
+      "op": "callsub calc_mbr",
+      "defined_out": [
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "tmp%5#0"
+      ]
+    },
+    "656": {
+      "op": "intc_3 // 1000",
+      "defined_out": [
+        "1000",
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "tmp%5#0",
+        "1000"
+      ]
+    },
+    "657": {
+      "op": "-",
+      "defined_out": [
+        "inner_txn_params%0%%param_Amount_idx_0#0"
+      ],
+      "stack_out": [
+        "inner_txn_params%0%%param_Amount_idx_0#0"
+      ]
+    },
+    "658": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "inner_txn_params%0%%param_Amount_idx_0#0",
+        "0"
+      ]
+    },
+    "659": {
+      "op": "bytec 9 // \"app_address\"",
+      "defined_out": [
+        "\"app_address\"",
+        "0",
+        "inner_txn_params%0%%param_Amount_idx_0#0"
+      ],
+      "stack_out": [
+        "inner_txn_params%0%%param_Amount_idx_0#0",
+        "0",
+        "\"app_address\""
+      ]
+    },
+    "661": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "inner_txn_params%0%%param_Amount_idx_0#0",
+        "maybe_exists%5#0",
+        "maybe_value%5#0"
+      ],
+      "stack_out": [
+        "inner_txn_params%0%%param_Amount_idx_0#0",
+        "maybe_value%5#0",
+        "maybe_exists%5#0"
+      ]
+    },
+    "662": {
+      "error": "check self.app_address exists",
+      "op": "assert // check self.app_address exists",
+      "stack_out": [
+        "inner_txn_params%0%%param_Amount_idx_0#0",
+        "maybe_value%5#0"
+      ]
+    },
+    "663": {
+      "op": "pushbytes \"Opt-out MBR refund.\"",
+      "defined_out": [
+        "\"Opt-out MBR refund.\"",
+        "inner_txn_params%0%%param_Amount_idx_0#0",
+        "maybe_value%5#0"
+      ],
+      "stack_out": [
+        "inner_txn_params%0%%param_Amount_idx_0#0",
+        "maybe_value%5#0",
+        "\"Opt-out MBR refund.\""
+      ]
+    },
+    "684": {
+      "op": "itxn_field Note",
+      "stack_out": [
+        "inner_txn_params%0%%param_Amount_idx_0#0",
+        "maybe_value%5#0"
+      ]
+    },
+    "686": {
+      "op": "itxn_field Sender",
+      "stack_out": [
+        "inner_txn_params%0%%param_Amount_idx_0#0"
+      ]
+    },
+    "688": {
+      "op": "itxn_field Amount",
+      "stack_out": []
+    },
+    "690": {
+      "op": "frame_dig -1",
+      "stack_out": [
+        "account#0 (copy)"
+      ]
+    },
+    "692": {
+      "op": "itxn_field Receiver",
+      "stack_out": []
+    },
+    "694": {
+      "op": "intc_1 // pay",
+      "defined_out": [
+        "pay"
+      ],
+      "stack_out": [
+        "pay"
+      ]
+    },
+    "695": {
+      "op": "itxn_field TypeEnum",
+      "stack_out": []
+    },
+    "697": {
+      "op": "intc_3 // 1000",
+      "stack_out": [
+        "1000"
+      ]
+    },
+    "698": {
+      "op": "itxn_field Fee",
+      "stack_out": []
+    },
+    "700": {
+      "op": "itxn_submit"
+    },
+    "701": {
+      "op": "pushbytes \"Close-out successful for account address: \"",
+      "defined_out": [
+        "\"Close-out successful for account address: \""
+      ],
+      "stack_out": [
+        "\"Close-out successful for account address: \""
+      ]
+    },
+    "745": {
+      "op": "frame_dig -1",
+      "stack_out": [
+        "\"Close-out successful for account address: \"",
+        "account#0 (copy)"
+      ]
+    },
+    "747": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%7#0"
+      ],
+      "stack_out": [
+        "tmp%7#0"
+      ]
+    },
+    "748": {
+      "op": "log",
+      "stack_out": []
+    },
+    "749": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "750": {
+      "subroutine": "smart_contracts.vote_chain.contract.VoteChain.set_vote_dates",
+      "params": {
+        "vote_start_date_str#0": "bytes",
+        "vote_start_date_unix#0": "uint64",
+        "vote_end_date_str#0": "bytes",
+        "vote_end_date_unix#0": "uint64"
+      },
+      "block": "set_vote_dates",
+      "stack_in": [],
+      "op": "proto 4 0"
+    },
+    "753": {
+      "op": "txn Sender",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "755": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "0"
+      ]
+    },
+    "756": {
+      "op": "bytec 11 // \"creator_address\"",
+      "defined_out": [
+        "\"creator_address\"",
+        "0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "0",
+        "\"creator_address\""
+      ]
+    },
+    "758": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%0#0",
+        "maybe_value%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "759": {
+      "error": "check self.creator_address exists",
+      "op": "assert // check self.creator_address exists",
+      "stack_out": [
+        "tmp%0#0",
+        "maybe_value%0#0"
+      ]
+    },
+    "760": {
+      "op": "==",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0"
+      ]
+    },
+    "761": {
+      "error": "Only App creator can set vote dates.",
+      "op": "assert // Only App creator can set vote dates.",
+      "stack_out": []
+    },
+    "762": {
+      "op": "frame_dig -3",
+      "defined_out": [
+        "vote_start_date_unix#0 (copy)"
+      ],
+      "stack_out": [
+        "vote_start_date_unix#0 (copy)"
+      ]
+    },
+    "764": {
+      "op": "frame_dig -1",
+      "defined_out": [
+        "vote_end_date_unix#0 (copy)",
+        "vote_start_date_unix#0 (copy)"
+      ],
+      "stack_out": [
+        "vote_start_date_unix#0 (copy)",
+        "vote_end_date_unix#0 (copy)"
+      ]
+    },
+    "766": {
+      "op": "<",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "767": {
+      "error": "Start date must be earlier than end date.",
+      "op": "assert // Start date must be earlier than end date.",
+      "stack_out": []
+    },
+    "768": {
+      "op": "frame_dig -1",
+      "stack_out": [
+        "vote_end_date_unix#0 (copy)"
+      ]
+    },
+    "770": {
+      "op": "frame_dig -3",
+      "stack_out": [
+        "vote_end_date_unix#0 (copy)",
+        "vote_start_date_unix#0 (copy)"
+      ]
+    },
+    "772": {
+      "op": "-",
+      "defined_out": [
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%3#0"
+      ]
+    },
+    "773": {
+      "op": "pushint 1209600 // 1209600",
+      "defined_out": [
+        "1209600",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%3#0",
+        "1209600"
+      ]
+    },
+    "777": {
+      "op": "<=",
+      "defined_out": [
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "tmp%4#0"
+      ]
+    },
+    "778": {
+      "error": "Voting period can not exceed 14 days.",
+      "op": "assert // Voting period can not exceed 14 days.",
+      "stack_out": []
+    },
+    "779": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "0"
+      ]
+    },
+    "780": {
+      "op": "bytec 7 // \"vote_dates_final\"",
+      "defined_out": [
+        "\"vote_dates_final\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"vote_dates_final\""
+      ]
+    },
+    "782": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%1#0",
+        "maybe_value%1#0"
+      ],
+      "stack_out": [
+        "maybe_value%1#0",
+        "maybe_exists%1#0"
+      ]
+    },
+    "783": {
+      "error": "check self.vote_dates_final exists",
+      "op": "assert // check self.vote_dates_final exists",
+      "stack_out": [
+        "maybe_value%1#0"
+      ]
+    },
+    "784": {
+      "op": "!",
+      "defined_out": [
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "tmp%5#0"
+      ]
+    },
+    "785": {
+      "error": "Vote dates can only be set once.",
+      "op": "assert // Vote dates can only be set once.",
+      "stack_out": []
+    },
+    "786": {
+      "op": "bytec 12 // \"vote_start_date_unix\"",
+      "defined_out": [
+        "\"vote_start_date_unix\""
+      ],
+      "stack_out": [
+        "\"vote_start_date_unix\""
+      ]
+    },
+    "788": {
+      "op": "frame_dig -3",
+      "stack_out": [
+        "\"vote_start_date_unix\"",
+        "vote_start_date_unix#0 (copy)"
+      ]
+    },
+    "790": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "791": {
+      "op": "bytec 10 // \"vote_end_date_unix\"",
+      "defined_out": [
+        "\"vote_end_date_unix\""
+      ],
+      "stack_out": [
+        "\"vote_end_date_unix\""
+      ]
+    },
+    "793": {
+      "op": "frame_dig -1",
+      "stack_out": [
+        "\"vote_end_date_unix\"",
+        "vote_end_date_unix#0 (copy)"
+      ]
+    },
+    "795": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "796": {
+      "op": "bytec 7 // \"vote_dates_final\"",
+      "stack_out": [
+        "\"vote_dates_final\""
+      ]
+    },
+    "798": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "\"vote_dates_final\"",
+        "1"
+      ],
+      "stack_out": [
+        "\"vote_dates_final\"",
+        "1"
+      ]
+    },
+    "799": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "800": {
+      "op": "pushbytes \"Vote start date: \"",
+      "defined_out": [
+        "\"Vote start date: \""
+      ],
+      "stack_out": [
+        "\"Vote start date: \""
+      ]
+    },
+    "819": {
+      "op": "frame_dig -4",
+      "defined_out": [
+        "\"Vote start date: \"",
+        "vote_start_date_str#0 (copy)"
+      ],
+      "stack_out": [
+        "\"Vote start date: \"",
+        "vote_start_date_str#0 (copy)"
+      ]
+    },
+    "821": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%7#0"
+      ],
+      "stack_out": [
+        "tmp%7#0"
+      ]
+    },
+    "822": {
+      "op": "log",
+      "stack_out": []
+    },
+    "823": {
+      "op": "pushbytes \"Vote end date: \"",
+      "defined_out": [
+        "\"Vote end date: \""
+      ],
+      "stack_out": [
+        "\"Vote end date: \""
+      ]
+    },
+    "840": {
+      "op": "frame_dig -2",
+      "defined_out": [
+        "\"Vote end date: \"",
+        "vote_end_date_str#0 (copy)"
+      ],
+      "stack_out": [
+        "\"Vote end date: \"",
+        "vote_end_date_str#0 (copy)"
+      ]
+    },
+    "842": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%9#0"
+      ],
+      "stack_out": [
+        "tmp%9#0"
+      ]
+    },
+    "843": {
+      "op": "log",
+      "stack_out": []
+    },
+    "844": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "845": {
+      "subroutine": "smart_contracts.vote_chain.contract.VoteChain.cast_vote",
+      "params": {
+        "account#0": "bytes",
+        "choice#0": "uint64"
+      },
+      "block": "cast_vote",
+      "stack_in": [],
+      "op": "proto 2 0"
+    },
+    "848": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "0"
+      ]
+    },
+    "849": {
+      "op": "bytec 8 // \"app_id\"",
+      "defined_out": [
+        "\"app_id\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"app_id\""
+      ]
+    },
+    "851": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%0#0",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "852": {
+      "error": "check self.app_id exists",
+      "op": "assert // check self.app_id exists",
+      "stack_out": [
+        "maybe_value%0#0"
+      ]
+    },
+    "853": {
+      "op": "frame_dig -2",
+      "defined_out": [
+        "account#0 (copy)",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "maybe_value%0#0",
+        "account#0 (copy)"
+      ]
+    },
+    "855": {
+      "op": "swap",
+      "stack_out": [
+        "account#0 (copy)",
+        "maybe_value%0#0"
+      ]
+    },
+    "856": {
+      "op": "app_opted_in",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "857": {
+      "error": "Account must be opted-in before voting.",
+      "op": "assert // Account must be opted-in before voting.",
+      "stack_out": []
+    },
+    "858": {
+      "op": "frame_dig -2",
+      "stack_out": [
+        "account#0 (copy)"
+      ]
+    },
+    "860": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "account#0 (copy)",
+        "0"
+      ]
+    },
+    "861": {
+      "op": "bytec_0 // \"vote_status\"",
+      "defined_out": [
+        "\"vote_status\"",
+        "0",
+        "account#0 (copy)"
+      ],
+      "stack_out": [
+        "account#0 (copy)",
+        "0",
+        "\"vote_status\""
+      ]
+    },
+    "862": {
+      "op": "app_local_get_ex",
+      "defined_out": [
+        "maybe_exists%1#0",
+        "maybe_value%1#0"
+      ],
+      "stack_out": [
+        "maybe_value%1#0",
+        "maybe_exists%1#0"
+      ]
+    },
+    "863": {
+      "error": "check self.local_vote_status exists for account",
+      "op": "assert // check self.local_vote_status exists for account",
+      "stack_out": [
+        "maybe_value%1#0"
+      ]
+    },
+    "864": {
+      "op": "!",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0"
+      ]
+    },
+    "865": {
+      "error": "This account already voted.",
+      "op": "assert // This account already voted.",
+      "stack_out": []
+    },
+    "866": {
+      "op": "frame_dig -1",
+      "defined_out": [
+        "choice#0 (copy)"
+      ],
+      "stack_out": [
+        "choice#0 (copy)"
+      ]
+    },
+    "868": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1",
+        "choice#0 (copy)"
+      ],
+      "stack_out": [
+        "choice#0 (copy)",
+        "1"
+      ]
+    },
+    "869": {
+      "op": "==",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "870": {
+      "op": "dup",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "tmp%2#0"
+      ]
+    },
+    "871": {
+      "op": "bnz cast_vote_bool_true@3",
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "874": {
+      "op": "frame_dig -1",
+      "stack_out": [
+        "tmp%2#0",
+        "choice#0 (copy)"
+      ]
+    },
+    "876": {
+      "op": "intc_2 // 2",
+      "stack_out": [
+        "tmp%2#0",
+        "choice#0 (copy)",
+        "2"
+      ]
+    },
+    "877": {
+      "op": "==",
+      "defined_out": [
+        "tmp%2#0",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "tmp%3#0"
+      ]
+    },
+    "878": {
+      "op": "bnz cast_vote_bool_true@3",
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "881": {
+      "op": "frame_dig -1",
+      "stack_out": [
+        "tmp%2#0",
+        "choice#0 (copy)"
+      ]
+    },
+    "883": {
+      "op": "pushint 3 // 3",
+      "defined_out": [
+        "3",
+        "choice#0 (copy)",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "choice#0 (copy)",
+        "3"
+      ]
+    },
+    "885": {
+      "op": "==",
+      "defined_out": [
+        "tmp%2#0",
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "tmp%4#0"
+      ]
+    },
+    "886": {
+      "op": "bz cast_vote_bool_false@4",
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "889": {
+      "block": "cast_vote_bool_true@3",
+      "stack_in": [
+        "tmp%2#0"
+      ],
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "or_result%0#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "or_result%0#0"
+      ]
+    },
+    "890": {
+      "op": "b cast_vote_bool_merge@5"
+    },
+    "893": {
+      "block": "cast_vote_bool_false@4",
+      "stack_in": [
+        "tmp%2#0"
+      ],
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "or_result%0#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "or_result%0#0"
+      ]
+    },
+    "894": {
+      "block": "cast_vote_bool_merge@5",
+      "stack_in": [
+        "tmp%2#0",
+        "or_result%0#0"
+      ],
+      "error": "Invalid voting choice.",
+      "op": "assert // Invalid voting choice.",
+      "defined_out": [],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "895": {
+      "op": "global LatestTimestamp",
+      "defined_out": [
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "tmp%5#0"
+      ]
+    },
+    "897": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "tmp%5#0",
+        "0"
+      ]
+    },
+    "898": {
+      "op": "bytec 12 // \"vote_start_date_unix\"",
+      "defined_out": [
+        "\"vote_start_date_unix\"",
+        "0",
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "tmp%5#0",
+        "0",
+        "\"vote_start_date_unix\""
+      ]
+    },
+    "900": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%2#0",
+        "maybe_value%2#0",
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "tmp%5#0",
+        "maybe_value%2#0",
+        "maybe_exists%2#0"
+      ]
+    },
+    "901": {
+      "error": "check self.vote_start_date_unix exists",
+      "op": "assert // check self.vote_start_date_unix exists",
+      "stack_out": [
+        "tmp%2#0",
+        "tmp%5#0",
+        "maybe_value%2#0"
+      ]
+    },
+    "902": {
+      "op": ">",
+      "defined_out": [
+        "tmp%6#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "tmp%6#0"
+      ]
+    },
+    "903": {
+      "error": "Voting has not started.",
+      "op": "assert // Voting has not started.",
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "904": {
+      "op": "global LatestTimestamp",
+      "defined_out": [
+        "tmp%7#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "tmp%7#0"
+      ]
+    },
+    "906": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "tmp%2#0",
+        "tmp%7#0",
+        "0"
+      ]
+    },
+    "907": {
+      "op": "bytec 10 // \"vote_end_date_unix\"",
+      "defined_out": [
+        "\"vote_end_date_unix\"",
+        "0",
+        "tmp%7#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "tmp%7#0",
+        "0",
+        "\"vote_end_date_unix\""
+      ]
+    },
+    "909": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%3#0",
+        "maybe_value%3#0",
+        "tmp%7#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "tmp%7#0",
+        "maybe_value%3#0",
+        "maybe_exists%3#0"
+      ]
+    },
+    "910": {
+      "error": "check self.vote_end_date_unix exists",
+      "op": "assert // check self.vote_end_date_unix exists",
+      "stack_out": [
+        "tmp%2#0",
+        "tmp%7#0",
+        "maybe_value%3#0"
+      ]
+    },
+    "911": {
+      "op": "<",
+      "defined_out": [
+        "tmp%8#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "tmp%8#0"
+      ]
+    },
+    "912": {
+      "error": "Voting has ended.",
+      "op": "assert // Voting has ended.",
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "913": {
+      "op": "frame_dig -2",
+      "defined_out": [
+        "account#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "account#0 (copy)"
+      ]
+    },
+    "915": {
+      "op": "bytec_0 // \"vote_status\"",
+      "defined_out": [
+        "\"vote_status\"",
+        "account#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "account#0 (copy)",
+        "\"vote_status\""
+      ]
+    },
+    "916": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "\"vote_status\"",
+        "1",
+        "account#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "account#0 (copy)",
+        "\"vote_status\"",
+        "1"
+      ]
+    },
+    "917": {
+      "op": "app_local_put",
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "918": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "tmp%2#0",
+        "0"
+      ]
+    },
+    "919": {
+      "op": "bytec 6 // \"total_vote_count\"",
+      "defined_out": [
+        "\"total_vote_count\"",
+        "0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "0",
+        "\"total_vote_count\""
+      ]
+    },
+    "921": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%4#0",
+        "maybe_value%4#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "maybe_value%4#0",
+        "maybe_exists%4#0"
+      ]
+    },
+    "922": {
+      "error": "check self.total_vote_count exists",
+      "op": "assert // check self.total_vote_count exists",
+      "stack_out": [
+        "tmp%2#0",
+        "maybe_value%4#0"
+      ]
+    },
+    "923": {
+      "op": "intc_1 // 1",
+      "stack_out": [
+        "tmp%2#0",
+        "maybe_value%4#0",
+        "1"
+      ]
+    },
+    "924": {
+      "op": "+",
+      "defined_out": [
+        "new_state_value%0#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "new_state_value%0#0"
+      ]
+    },
+    "925": {
+      "op": "bytec 6 // \"total_vote_count\"",
+      "stack_out": [
+        "tmp%2#0",
+        "new_state_value%0#0",
+        "\"total_vote_count\""
+      ]
+    },
+    "927": {
+      "op": "swap",
+      "stack_out": [
+        "tmp%2#0",
+        "\"total_vote_count\"",
+        "new_state_value%0#0"
+      ]
+    },
+    "928": {
+      "op": "app_global_put",
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "929": {
+      "op": "frame_dig 0",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "tmp%2#0"
+      ]
+    },
+    "931": {
+      "op": "bz cast_vote_else_body@7",
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "934": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "tmp%2#0",
+        "0"
+      ]
+    },
+    "935": {
+      "op": "bytec_3 // \"choice1_vote_count\"",
+      "defined_out": [
+        "\"choice1_vote_count\"",
+        "0",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "0",
+        "\"choice1_vote_count\""
+      ]
+    },
+    "936": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%5#0",
+        "maybe_value%5#0",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "maybe_value%5#0",
+        "maybe_exists%5#0"
+      ]
+    },
+    "937": {
+      "error": "check self.choice1_vote_count exists",
+      "op": "assert // check self.choice1_vote_count exists",
+      "stack_out": [
+        "tmp%2#0",
+        "maybe_value%5#0"
+      ]
+    },
+    "938": {
+      "op": "intc_1 // 1",
+      "stack_out": [
+        "tmp%2#0",
+        "maybe_value%5#0",
+        "1"
+      ]
+    },
+    "939": {
+      "op": "+",
+      "defined_out": [
+        "new_state_value%1#0",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "new_state_value%1#0"
+      ]
+    },
+    "940": {
+      "op": "bytec_3 // \"choice1_vote_count\"",
+      "stack_out": [
+        "tmp%2#0",
+        "new_state_value%1#0",
+        "\"choice1_vote_count\""
+      ]
+    },
+    "941": {
+      "op": "swap",
+      "stack_out": [
+        "tmp%2#0",
+        "\"choice1_vote_count\"",
+        "new_state_value%1#0"
+      ]
+    },
+    "942": {
+      "op": "app_global_put",
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "943": {
+      "op": "frame_dig -2",
+      "stack_out": [
+        "tmp%2#0",
+        "account#0 (copy)"
+      ]
+    },
+    "945": {
+      "op": "bytec_2 // \"vote_choice\"",
+      "defined_out": [
+        "\"vote_choice\"",
+        "account#0 (copy)",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "account#0 (copy)",
+        "\"vote_choice\""
+      ]
+    },
+    "946": {
+      "op": "intc_1 // 1",
+      "stack_out": [
+        "tmp%2#0",
+        "account#0 (copy)",
+        "\"vote_choice\"",
+        "1"
+      ]
+    },
+    "947": {
+      "op": "app_local_put",
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "948": {
+      "op": "b cast_vote_after_if_else@11"
+    },
+    "951": {
+      "block": "cast_vote_else_body@7",
+      "stack_in": [
+        "tmp%2#0"
+      ],
+      "op": "frame_dig -1",
+      "defined_out": [
+        "choice#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "choice#0 (copy)"
+      ]
+    },
+    "953": {
+      "op": "intc_2 // 2",
+      "defined_out": [
+        "2",
+        "choice#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "choice#0 (copy)",
+        "2"
+      ]
+    },
+    "954": {
+      "op": "==",
+      "defined_out": [
+        "tmp%10#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "tmp%10#0"
+      ]
+    },
+    "955": {
+      "op": "bz cast_vote_else_body@9",
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "958": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "0"
+      ]
+    },
+    "959": {
+      "op": "bytec 4 // \"choice2_vote_count\"",
+      "defined_out": [
+        "\"choice2_vote_count\"",
+        "0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "0",
+        "\"choice2_vote_count\""
+      ]
+    },
+    "961": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%6#0",
+        "maybe_value%6#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "maybe_value%6#0",
+        "maybe_exists%6#0"
+      ]
+    },
+    "962": {
+      "error": "check self.choice2_vote_count exists",
+      "op": "assert // check self.choice2_vote_count exists",
+      "stack_out": [
+        "tmp%2#0",
+        "maybe_value%6#0"
+      ]
+    },
+    "963": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1",
+        "maybe_value%6#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "maybe_value%6#0",
+        "1"
+      ]
+    },
+    "964": {
+      "op": "+",
+      "defined_out": [
+        "new_state_value%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "new_state_value%2#0"
+      ]
+    },
+    "965": {
+      "op": "bytec 4 // \"choice2_vote_count\"",
+      "stack_out": [
+        "tmp%2#0",
+        "new_state_value%2#0",
+        "\"choice2_vote_count\""
+      ]
+    },
+    "967": {
+      "op": "swap",
+      "stack_out": [
+        "tmp%2#0",
+        "\"choice2_vote_count\"",
+        "new_state_value%2#0"
+      ]
+    },
+    "968": {
+      "op": "app_global_put",
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "969": {
+      "op": "frame_dig -2",
+      "defined_out": [
+        "account#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "account#0 (copy)"
+      ]
+    },
+    "971": {
+      "op": "bytec_2 // \"vote_choice\"",
+      "defined_out": [
+        "\"vote_choice\"",
+        "account#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "account#0 (copy)",
+        "\"vote_choice\""
+      ]
+    },
+    "972": {
+      "op": "intc_2 // 2",
+      "stack_out": [
+        "tmp%2#0",
+        "account#0 (copy)",
+        "\"vote_choice\"",
+        "2"
+      ]
+    },
+    "973": {
+      "op": "app_local_put",
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "974": {
+      "op": "b cast_vote_after_if_else@11"
+    },
+    "977": {
+      "block": "cast_vote_else_body@9",
+      "stack_in": [
+        "tmp%2#0"
+      ],
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "0"
+      ]
+    },
+    "978": {
+      "op": "bytec 5 // \"choice3_vote_count\"",
+      "defined_out": [
+        "\"choice3_vote_count\"",
+        "0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "0",
+        "\"choice3_vote_count\""
+      ]
+    },
+    "980": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%7#0",
+        "maybe_value%7#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "maybe_value%7#0",
+        "maybe_exists%7#0"
+      ]
+    },
+    "981": {
+      "error": "check self.choice3_vote_count exists",
+      "op": "assert // check self.choice3_vote_count exists",
+      "stack_out": [
+        "tmp%2#0",
+        "maybe_value%7#0"
+      ]
+    },
+    "982": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1",
+        "maybe_value%7#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "maybe_value%7#0",
+        "1"
+      ]
+    },
+    "983": {
+      "op": "+",
+      "defined_out": [
+        "new_state_value%3#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "new_state_value%3#0"
+      ]
+    },
+    "984": {
+      "op": "bytec 5 // \"choice3_vote_count\"",
+      "stack_out": [
+        "tmp%2#0",
+        "new_state_value%3#0",
+        "\"choice3_vote_count\""
+      ]
+    },
+    "986": {
+      "op": "swap",
+      "stack_out": [
+        "tmp%2#0",
+        "\"choice3_vote_count\"",
+        "new_state_value%3#0"
+      ]
+    },
+    "987": {
+      "op": "app_global_put",
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "988": {
+      "op": "frame_dig -2",
+      "defined_out": [
+        "account#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "account#0 (copy)"
+      ]
+    },
+    "990": {
+      "op": "bytec_2 // \"vote_choice\"",
+      "defined_out": [
+        "\"vote_choice\"",
+        "account#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "account#0 (copy)",
+        "\"vote_choice\""
+      ]
+    },
+    "991": {
+      "op": "pushint 3 // 3",
+      "defined_out": [
+        "\"vote_choice\"",
+        "3",
+        "account#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "account#0 (copy)",
+        "\"vote_choice\"",
+        "3"
+      ]
+    },
+    "993": {
+      "op": "app_local_put",
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "994": {
+      "block": "cast_vote_after_if_else@11",
+      "stack_in": [
+        "tmp%2#0"
+      ],
+      "op": "pushbytes \"Vote casted successfully for account addres: \"",
+      "defined_out": [
+        "\"Vote casted successfully for account addres: \""
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "\"Vote casted successfully for account addres: \""
+      ]
+    },
+    "1041": {
+      "op": "frame_dig -2",
+      "defined_out": [
+        "\"Vote casted successfully for account addres: \"",
+        "account#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "\"Vote casted successfully for account addres: \"",
+        "account#0 (copy)"
+      ]
+    },
+    "1043": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%12#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "tmp%12#0"
+      ]
+    },
+    "1044": {
+      "op": "log",
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "1045": {
+      "op": "frame_dig -1",
+      "defined_out": [
+        "choice#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "choice#0 (copy)"
+      ]
+    },
+    "1047": {
+      "op": "itob",
+      "defined_out": [
+        "tmp%14#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "tmp%14#0"
+      ]
+    },
+    "1048": {
+      "op": "pushbytes \"Vote cased for choice: \"",
+      "defined_out": [
+        "\"Vote cased for choice: \"",
+        "tmp%14#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "tmp%14#0",
+        "\"Vote cased for choice: \""
+      ]
+    },
+    "1073": {
+      "op": "swap",
+      "stack_out": [
+        "tmp%2#0",
+        "\"Vote cased for choice: \"",
+        "tmp%14#0"
+      ]
+    },
+    "1074": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%15#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "tmp%15#0"
+      ]
+    },
+    "1075": {
+      "op": "log",
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "1076": {
+      "retsub": true,
+      "op": "retsub"
+    }
+  }
+}
