@@ -1,0 +1,38 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'docs/**'
+      - '**.md'
+      - '.vscode/**'
+      - '.idea/**'
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  VoteChain-contracts-validate:
+    name: Run VoteChain-contracts release
+    secrets: inherit
+    uses: ./.github/workflows/VoteChain-contracts-ci.yaml
+
+  VoteChain-contracts-release:
+    name: Run VoteChain-contracts release
+    secrets: inherit
+    uses: ./.github/workflows/VoteChain-contracts-cd.yaml
+    needs: VoteChain-contracts-validate
+
+  VoteChain-frontend-validate:
+    name: Run VoteChain-frontend release
+    secrets: inherit
+    uses: ./.github/workflows/VoteChain-frontend-ci.yaml
+
+  VoteChain-frontend-release:
+    name: Run VoteChain-frontend release
+    secrets: inherit
+    uses: ./.github/workflows/VoteChain-frontend-cd.yaml
+    needs: VoteChain-frontend-validate
