@@ -1,56 +1,68 @@
-import * as algokit from '@algorandfoundation/algokit-utils'
-import { TransactionSignerAccount } from '@algorandfoundation/algokit-utils/types/account'
-import { VoteChainClient, VoteChainFactory } from './contracts/VoteChain'
+import { AlgorandClient, algos } from '@algorandfoundation/algokit-utils'
+import { VoteChainFactory } from './contracts/VoteChain'
 
-export function createApp(vcf: VoteChainFactory, sender: string, signer: TransactionSignerAccount, appId: (id: number) => void) {
+// For initial app creation
+export function createApp(algorand: AlgorandClient, creator: string) {
   return async () => {
-    const createAppTxn = await vcf.send.create.createApp({
-      sender: sender,
-      signer: signer,
-      // staticFee: AlgoAmount.MicroAlgo(ALGORAND_MIN_TX_FEE),
+    const factory = algorand.client.getTypedAppFactory(VoteChainFactory)
+
+    // Create the initial app
+    const result = await factory.send.create.createApp({
+      sender: creator,
+      signer: algorand.account.getSigner(creator),
       args: [], // No arguments for create_app()
     })
 
-    appId(Number(createAppTxn.appClient.appId))
-    return { createAppTxn }
+    // // Extract app ID and address from the creation result
+    // const appId = Number(createResult.appClient.appId)
+    // const appAddr = String(createResult.appClient.appAddress)
+
+    // // Update the app ID and address using the provided callback functions
+    // setAppId(appId)
+    // setAppAddr(appAddr)
+
+    // Return the app client for further interactions
+    return result.appClient
   }
 }
 
-export function optInToLocalStorage(
-  algorand: algokit.AlgorandClient,
-  vcc: VoteChainClient,
-  appAddress: string,
-  sender: string,
-  signer: TransactionSignerAccount,
-) {
-  return async () => {
-    const mbrPay = await algorand.createTransaction.payment({
-      sender: sender,
-      receiver: appAddress,
-      amount: algokit.algos(0.1 + 0.1 + 0.057),
-      extraFee: algokit.algos(0.001),
-    })
+// For other users to connect to existing app
+export async function optIn(algorand: AlgorandClient, appId: bigint, sender: string) {
+  const factory = algorand.client.getTypedAppFactory(VoteChainFactory)
 
-    await vcc.send.optIn.localStorage({
-      sender: sender,
-      signer: signer,
-      args: {
-        account: sender,
-        mbrPay: mbrPay,
-      },
-    })
-  }
+  // Get the app client by ID
+  const client = factory.getAppClientById({ appId: appId })
+
+  // Create the Minimum Balance Requirement (MBR) payment transaction
+  const mbrPay = await algorand.createTransaction.payment({
+    sender: sender,
+    receiver: client.appAddress,
+    amount: algos(0.1 + 0.1 + 0.057),
+    extraFee: algos(0.001),
+  })
+
+  // Opt-in to local storage
+  await client.send.optIn.localStorage({
+    sender: sender,
+    signer: algorand.account.getSigner(sender),
+    args: {
+      account: sender,
+      mbrPay: mbrPay,
+    },
+  })
 }
 
-// Usage example:
-// const { createAppTxn } = await createApp(algorand, vcf, sender, signer)()
-// await optInToLocalStorage(algorand, vcc, createAppTxn.appClient.appAddress, sender, signer)()
-
-export function optOut(vcc: VoteChainClient, sender: string, signer: TransactionSignerAccount) {
+export function optOut(algorand: AlgorandClient, appId: bigint, sender: string) {
   return async () => {
-    await vcc.send.closeOut.optOut({
+    const factory = algorand.client.getTypedAppFactory(VoteChainFactory)
+
+    // Get the app client by ID
+    const client = factory.getAppClientById({ appId })
+
+    // Send the opt-out transaction
+    await client.send.closeOut.optOut({
       sender: sender,
-      signer: signer,
+      signer: algorand.account.getSigner(sender),
       args: {
         account: sender,
       },
@@ -59,33 +71,45 @@ export function optOut(vcc: VoteChainClient, sender: string, signer: Transaction
 }
 
 export function setVoteDates(
-  vcc: VoteChainClient,
-  sender: string,
-  signer: TransactionSignerAccount,
+  algorand: AlgorandClient,
+  appId: bigint,
+  creator: string,
   voteStartDateStr: string,
   voteStartDateUnix: bigint,
   voteEndDateStr: string,
   voteEndDateUnix: bigint,
 ) {
   return async () => {
-    await vcc.send.setVoteDates({
-      sender: sender,
-      signer: signer,
+    const factory = algorand.client.getTypedAppFactory(VoteChainFactory)
+
+    // Get the app client by ID
+    const client = factory.getAppClientById({ appId })
+
+    // Send the setVoteDates transaction
+    await client.send.setVoteDates({
+      sender: creator,
+      signer: algorand.account.getSigner(creator),
       args: {
-        voteStartDateStr: voteStartDateStr,
-        voteStartDateUnix: voteStartDateUnix,
-        voteEndDateStr: voteEndDateStr,
-        voteEndDateUnix: voteEndDateUnix,
+        voteStartDateStr,
+        voteStartDateUnix,
+        voteEndDateStr,
+        voteEndDateUnix,
       },
     })
   }
 }
 
-export function castVote(vcc: VoteChainClient, sender: string, signer: TransactionSignerAccount, choice: bigint) {
+export function castVote(algorand: AlgorandClient, appId: bigint, sender: string, choice: bigint) {
   return async () => {
-    await vcc.send.castVote({
+    const factory = algorand.client.getTypedAppFactory(VoteChainFactory)
+
+    // Get the app client by ID
+    const client = factory.getAppClientById({ appId })
+
+    // Send the opt-out transaction
+    await client.send.castVote({
       sender: sender,
-      signer: signer,
+      signer: algorand.account.getSigner(sender),
       args: {
         account: sender,
         choice: choice,
