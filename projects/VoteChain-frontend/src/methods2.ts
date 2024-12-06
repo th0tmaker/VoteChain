@@ -1,8 +1,13 @@
-import { AlgorandClient, algo } from '@algorandfoundation/algokit-utils'
+import { algo, AlgorandClient } from '@algorandfoundation/algokit-utils'
 import { VoteChainFactory } from './contracts/VoteChain'
+import { getAlgodConfigFromViteEnvironment } from './utils/network/getAlgoClientConfigs'
+
+// Initialize Algorand client from config
+const algodConfig = getAlgodConfigFromViteEnvironment()
+const algorand = AlgorandClient.fromConfig({ algodConfig })
 
 // Function to initialize factory with creator
-export function getFactory(algorand: AlgorandClient, creator: string) {
+export function getFactory(creator: string) {
   const factory = algorand.client.getTypedAppFactory(VoteChainFactory, {
     defaultSender: creator,
   })
@@ -10,26 +15,16 @@ export function getFactory(algorand: AlgorandClient, creator: string) {
   return factory
 }
 
-// For initial app creation
-export async function createApp(algorand: AlgorandClient, creator: string) {
-  const factory = getFactory(algorand, creator)
-
-  // Create the initial app
-  const { appClient } = await factory.send.create.createApp({
-    sender: creator,
-    signer: algorand.account.getSigner(creator),
-    args: [], // No arguments for create_app()
-  })
-
-  // Return the app client for further interactions
+// Deploy App
+export async function deployApp(creator: string) {
+  const factory = getFactory(creator)
+  const { appClient } = await factory.deploy({})
   return appClient
 }
 
 // For other users to connect to existing app
-export async function optIn(algorand: AlgorandClient, sender: string, appId: bigint) {
-  const factory = algorand.client.getTypedAppFactory(VoteChainFactory)
-
-  // Get the app client by ID
+export async function optIn(creator: string, sender: string, appId: bigint) {
+  const factory = getFactory(creator)
   const client = factory.getAppClientById({ appId: appId })
 
   // Create the Minimum Balance Requirement (MBR) payment transaction
@@ -51,11 +46,9 @@ export async function optIn(algorand: AlgorandClient, sender: string, appId: big
   })
 }
 
-export function optOut(algorand: AlgorandClient, sender: string, appId: bigint) {
+export function optOut(creator: string, sender: string, appId: bigint) {
   return async () => {
-    const factory = algorand.client.getTypedAppFactory(VoteChainFactory)
-
-    // Get the app client by ID
+    const factory = getFactory(creator)
     const client = factory.getAppClientById({ appId })
 
     // Send the opt-out transaction
@@ -70,7 +63,6 @@ export function optOut(algorand: AlgorandClient, sender: string, appId: bigint) 
 }
 
 export function setVoteDates(
-  algorand: AlgorandClient,
   creator: string,
   appId: bigint,
   voteStartDateStr: string,
@@ -79,9 +71,7 @@ export function setVoteDates(
   voteEndDateUnix: bigint,
 ) {
   return async () => {
-    const factory = algorand.client.getTypedAppFactory(VoteChainFactory)
-
-    // Get the app client by ID
+    const factory = getFactory(creator)
     const client = factory.getAppClientById({ appId })
 
     // Send the setVoteDates transaction
@@ -98,14 +88,12 @@ export function setVoteDates(
   }
 }
 
-export function castVote(algorand: AlgorandClient, sender: string, appId: bigint, choice: bigint) {
+export function castVote(creator: string, sender: string, appId: bigint, choice: bigint) {
   return async () => {
-    const factory = algorand.client.getTypedAppFactory(VoteChainFactory)
-
-    // Get the app client by ID
+    const factory = getFactory(creator)
     const client = factory.getAppClientById({ appId })
 
-    // Send the opt-out transaction
+    // Send the cast vote transaction
     await client.send.castVote({
       sender: sender,
       signer: algorand.account.getSigner(sender),

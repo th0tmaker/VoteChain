@@ -1,11 +1,25 @@
 // src/components/Home.tsx
 import * as algokit from '@algorandfoundation/algokit-utils'
+import { consoleLogger } from '@algorandfoundation/algokit-utils/types/logging'
 import { useWallet } from '@txnlab/use-wallet'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import ConnectWallet from './components/ConnectWallet'
 import { VoteChainClient } from './contracts/VoteChain'
 import * as methods from './methods'
 import { getAlgodConfigFromViteEnvironment } from './utils/network/getAlgoClientConfigs'
+
+// Configure logger globally
+algokit.Config.configure({
+  debug: true,
+  logger: consoleLogger,
+})
+
+interface PollForm {
+  title: string
+  choices: string[]
+  startDate: string
+  endDate: string
+}
 
 // Interfaces for types
 interface HomeProps {}
@@ -13,7 +27,7 @@ interface HomeProps {}
 const Home: React.FC<HomeProps> = () => {
   const [openWalletModal, setOpenWalletModal] = useState(false)
   const { activeAddress, signer } = useWallet()
-  const [creatorAddress, setCreatorAddress] = useState<string | null>(null)
+  const [creatorAddress, setCreatorAddress] = useState<string>()
   const [appClient, setAppClient] = useState<VoteChainClient | null>(null)
   const [appId, setAppId] = useState<bigint | null>(null)
   const [appAddr, setAppAddr] = useState<string>('')
@@ -23,25 +37,49 @@ const Home: React.FC<HomeProps> = () => {
   const [voteEndDateUnix, setVoteEndDateUnix] = useState<number>(0)
   const [voteChoice, setVoteChoice] = useState<bigint | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isStarted, appIsStarted] = useState(false) // To track if the "Start" button has been clicked
+  const [isPollFormActive, setIsPollFormActive] = useState(false)
+  const [pollDetails, setPollDetails] = useState<PollForm>({
+    title: '',
+    choices: ['', '', ''],
+    startDate: '',
+    endDate: '',
+  })
+
+  const handleMakePoll = () => {
+    setIsPollFormActive(true)
+  }
+
+  const handlePollSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsPollFormActive(false)
+    // Here you'll add the logic to submit to your smart contract
+
+    handleVoteDatesInput
+    handleVoteChoiceInput
+  }
 
   const toggleWalletModal = () => {
     setOpenWalletModal(!openWalletModal)
   }
 
-  useEffect(() => {
-    const fetchAppClient = async () => {
-      const client = await handleCreateApp() // handleCreateApp is your async function
-      if (client) {
-        setAppClient(client) // Store the appClient in state
-        setAppId(BigInt(client.appId)) // Update appId state
-        setAppAddr(client.appAddress) // Update appAddr state
-      }
+  // useEffect(() => {
+  //   const fetchAppClient = async () => {
+  //     // Only proceed if we have an active address
+  //     if (activeAddress) {
+  //       consoleLogger.info('Attempting to create app with address:', activeAddress)
+  //       const client = await handleCreateApp()
+  //       if (client) {
+  //         setAppClient(client)
+  //         setAppId(BigInt(client.appId))
+  //         setAppAddr(client.appAddress)
+  //         consoleLogger.info('App client successfully initialized')
+  //       }
+  //     }
+  //   }
 
-      // client?.state.global.choice1VoteCount
-    }
-
-    fetchAppClient() // Call the async function
-  }, []) // Empty dependency array ensures this effect runs once when the component mounts
+  //   fetchAppClient()
+  // }, [activeAddress]) // Add activeAddress as a dependency
 
   // Algorand client setup
   const algodConfig = getAlgodConfigFromViteEnvironment()
@@ -87,32 +125,38 @@ const Home: React.FC<HomeProps> = () => {
   }
 
   const handleCreateApp = async () => {
-    if (!activeAddress) {
-      alert('Please connect a wallet.')
-      return null
-    }
-
-    // Check if the app is already initialized
-    if (appId) {
-      if (creatorAddress && activeAddress !== creatorAddress) {
-        alert('Only the creator can initialize the app.')
-      } else {
-        alert('App has already been initialized.')
-      }
-      return null
-    }
-
     try {
+      consoleLogger.info('Current activeAddress:', activeAddress) // Add this line
+      if (!activeAddress) {
+        consoleLogger.error('No active address found')
+        alert('Please connect a wallet!')
+        return null
+      }
+
+      consoleLogger.info('Creating app with address:', activeAddress)
+
       // The first user initializes the app and becomes the creator
-      const appClient = await methods.createApp(algorand, activeAddress)()
+      const appClient = await methods.createApp(algorand, activeAddress)
+
+      consoleLogger.info('App created successfully:', appClient)
+
       setCreatorAddress(activeAddress)
       setAppId(BigInt(appClient.appId))
       setAppAddr(String(appClient.appAddress))
-      alert(`App created successfully! App ID: ${appClient.appId}`)
-      return appClient // Return the created appClient
+
+      // alert(`App created successfully! App ID: ${appClient.appId}`)
+      consoleLogger.info('Creator Address, App ID, App Address set!')
+      appIsStarted(true) // Set started state to true, triggering grid change
+
+      await methods.optIn(algorand, activeAddress, BigInt(appClient.appId))
+
+      consoleLogger.info(activeAddress, 'has been successfully opted in.')
+
+      return appClient
     } catch (error) {
-      alert('Error creating app!')
-      return null // Return null in case of an error
+      consoleLogger.error('Error creating app:', error)
+      alert(`Error creating app: ${error instanceof Error ? error.message : String(error)}`)
+      return null
     }
   }
 
@@ -129,7 +173,7 @@ const Home: React.FC<HomeProps> = () => {
     }
 
     try {
-      await methods.optIn(algorand, appId, activeAddress)
+      await methods.optIn(algorand, activeAddress, appId)
       alert('Opt-in successful!')
     } catch (error) {
       alert('Error during opt-in.')
@@ -149,10 +193,10 @@ const Home: React.FC<HomeProps> = () => {
     }
 
     try {
-      await methods.optOut(algorand, appId, activeAddress)
-      alert('Opt-in successful!')
+      await methods.optOut(algorand, activeAddress, appId)
+      alert('Opt-out successful!')
     } catch (error) {
-      alert('Error during opt-in.')
+      alert('Error during opt-out.')
     }
   }
 
@@ -179,8 +223,8 @@ const Home: React.FC<HomeProps> = () => {
 
       const setVoteDatesFn = methods.setVoteDates(
         algorand,
-        appId,
         creatorAddress,
+        appId,
         voteStartDateStr,
         BigInt(voteStartDateUnix),
         voteEndDateStr,
@@ -194,7 +238,7 @@ const Home: React.FC<HomeProps> = () => {
     }
   }
 
-  // Handle opt out of App
+  // Handle vote submission
   const handleCastVote = async () => {
     if (!appId) {
       alert('App ID is not set. Please create or select an app first.')
@@ -212,7 +256,7 @@ const Home: React.FC<HomeProps> = () => {
     }
 
     try {
-      await methods.castVote(algorand, appId, activeAddress, voteChoice)
+      await methods.castVote(algorand, activeAddress, appId, voteChoice)
       alert('Vote submitted successfully!')
     } catch (error) {
       alert('Error during vote submission.')
@@ -221,29 +265,149 @@ const Home: React.FC<HomeProps> = () => {
 
   return (
     <div className="hero min-h-screen bg-slate-800">
-      <div className="hero-content text-center rounded-lg p-6 max-w-md bg-blue-100">
-        <div className="max-w-md">
-          <h1 className="text-4xl">
-            Welcome to <div className="font-bold">VoteChain</div>
-          </h1>
-          <p className="py-6">Bla bla bla paragraf.</p>
+      <div className="hero-content maxl text-center rounded-lg p-10 max-w-full bg-blue-100">
+        <div className="max-w-full">
+          <h1 className="text-5xl font-bold">Welcome to VoteChain</h1>
+          <p className="py-6 text-lg">Bla bla bla paragraph with a larger font size and more space.</p>
+          {!isStarted ? (
+            <div className="grid justify-center">
+              <button
+                data-test-id="start-app-btn"
+                className="btn w-40 h-14 justify-center rounded-md text-[24px] tracking-wide font-bold bg-yellow-400 hover:bg-green-500 m-2 border-[3px] border-black hover:border-[4px] hover:border-green-700"
+                onClick={handleCreateApp}
+              >
+                Start
+              </button>
+              <button
+                data-test-id="join-app-btn"
+                className="btn w-40 h-14 justify-center rounded-md text-[24px] tracking-wide font-bold bg-yellow-400 hover:bg-green-500 m-2 border-[3px] border-black hover:border-[4px] hover:border-green-700"
+              >
+                Join
+              </button>
+              <button
+                data-test-id="connect-wallet-btn"
+                className="btn w-40 h-14 justify-center rounded-md text-[24px] tracking-wide font-bold bg-yellow-400 hover:bg-green-500 m-2 border-[3px] border-black hover:border-[4px] hover:border-green-700"
+                onClick={toggleWalletModal}
+              >
+                Tekvin
+              </button>
+              <ConnectWallet openModal={openWalletModal} closeModal={toggleWalletModal} />
+            </div>
+          ) : (
+            <div>
+              <div className="mt-2 max-w-2xl mx-auto">
+                <form onSubmit={handlePollSubmit} className="space-y-2 bg-white p-4 rounded-lg shadow-lgb border-2 border-black">
+                  <h2 className="text-2xl font-bold text-center mb-2">Create New Poll</h2>
 
-          <div className="grid">
-            <button data-test-id="connect-wallet" className="btn m-2" onClick={toggleWalletModal}>
-              Tekvin
-            </button>
-            <div className="divider" />
-            <label className="label">App ID: {appId ? appId.toString() : 'Loading...'}</label>
-            <label className="label">App Creator: {creatorAddress || 'Not available'}</label>
-            <label className="label">App Address: {appAddr || 'Not available'}</label>
-          </div>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Poll Title</label>
+                      <input
+                        type="text"
+                        value={pollDetails.title}
+                        onChange={(e) => setPollDetails({ ...pollDetails, title: e.target.value })}
+                        className={`w-full p-3 border rounded-md focus: outline-none
+                          ${pollDetails.title ? 'border-2 border-green-500' : 'border-2 border-red-500'}`}
+                        required
+                      />
+                    </div>
 
-          <ConnectWallet openModal={openWalletModal} closeModal={toggleWalletModal} />
-          {/* <AppCalls openModal={appCallsDemoModal} setModalState={setAppCallsDemoModal} /> */}
+                    <div className="space-y-3">
+                      <label className="block text-sm font-medium text-gray-700">Choices (3 required)</label>
+                      {pollDetails.choices.map((choice, index) => (
+                        <input
+                          key={index}
+                          type="text"
+                          value={choice}
+                          onChange={(e) => {
+                            const newChoices = [...pollDetails.choices]
+                            newChoices[index] = e.target.value
+                            setPollDetails({ ...pollDetails, choices: newChoices })
+                          }}
+                          placeholder={`Choice ${index + 1}`}
+                          className={`w-full p-3 border rounded-md focus: outline-none
+                            ${pollDetails.choices[index] ? 'border-2 border-green-500' : 'border-2 border-red-500'}`}
+                          required
+                        />
+                      ))}
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Start Date</label>
+                        <input
+                          type="date"
+                          value={pollDetails.startDate}
+                          onChange={(e) => setPollDetails({ ...pollDetails, startDate: e.target.value })}
+                          className={`w-full p-3 border rounded-md focus: outline-none
+                            ${pollDetails.startDate ? 'border-2 border-green-500' : 'border-2 border-red-500'}`}
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">End Date</label>
+                        <input
+                          type="date"
+                          value={pollDetails.endDate}
+                          onChange={(e) => setPollDetails({ ...pollDetails, endDate: e.target.value })}
+                          className={`w-full p-3 border rounded-md focus: outline-none
+                            ${pollDetails.endDate ? 'border-2 border-green-500' : 'border-2 border-red-500'}`}
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4 justify-center mt-6">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setPollDetails({
+                          title: '',
+                          choices: ['', '', ''],
+                          startDate: '',
+                          endDate: '',
+                        })
+                        setIsPollFormActive(false) // Set the poll form to inactive
+                        appIsStarted(false) // Set the app to not started
+                      }}
+                      className="btn w-40 h-14 justify-center rounded-md text-[24px] tracking-wide font-bold bg-yellow-400 hover:bg-red-500 m-2 border-[3px] border-black hover:border-[4px] hover:border-red-700"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="btn w-40 h-14 justify-center rounded-md text-[24px] tracking-wide font-bold bg-yellow-400 hover:bg-green-500 m-2 border-[3px] border-black hover:border-[4px] hover:border-green-700"
+                      onClick={handlePollSubmit}
+                    >
+                      Create
+                    </button>
+                  </div>
+                </form>
+
+                {/* App Details Section */}
+                <div className="mt-4">
+                  <div className="text-left justify-items-start">
+                    <div className="">
+                      <span className="text-black text-[18px] font-bold italic">App ID: </span>
+                      <span className="text-green-800 text-[18px] font-bold">{appId ? appId.toString() : 'Loading...'}</span>
+                    </div>
+                    <div className="">
+                      <span className="text-black text-[18px] font-bold italic">App Creator: </span>
+                      <span className="text-green-800 text-[18px] font-bold">{creatorAddress}</span>
+                    </div>
+                    <div className="">
+                      <span className="text-black text-[18px] font-bold italic">App Address: </span>
+                      <span className="text-green-800 text-[18px] font-bold">{appAddr}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
   )
 }
-
 export default Home
