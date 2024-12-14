@@ -12,7 +12,7 @@ export function getFactory(algorand: AlgorandClient, creator: string) {
 
 // For initial app creation
 export async function createApp(algorand: AlgorandClient, creator: string) {
-  const factory = getFactory(algorand, creator)
+  const factory = algorand.client.getTypedAppFactory(VoteChainFactory)
 
   // Create the initial app
   const { appClient } = await factory.send.create.createApp({
@@ -69,7 +69,7 @@ export function optOut(algorand: AlgorandClient, sender: string, appId: bigint) 
   }
 }
 
-export function setVoteDates(
+export async function setVoteDates(
   algorand: AlgorandClient,
   creator: string,
   appId: bigint,
@@ -78,24 +78,22 @@ export function setVoteDates(
   voteEndDateStr: string,
   voteEndDateUnix: bigint,
 ) {
-  return async () => {
-    const factory = algorand.client.getTypedAppFactory(VoteChainFactory)
+  const factory = algorand.client.getTypedAppFactory(VoteChainFactory)
 
-    // Get the app client by ID
-    const client = factory.getAppClientById({ appId })
+  // Get the app client by ID
+  const client = factory.getAppClientById({ appId })
 
-    // Send the setVoteDates transaction
-    await client.send.setVoteDates({
-      sender: creator,
-      signer: algorand.account.getSigner(creator),
-      args: {
-        voteStartDateStr,
-        voteStartDateUnix,
-        voteEndDateStr,
-        voteEndDateUnix,
-      },
-    })
-  }
+  // Send the setVoteDates transaction
+  await client.send.setVoteDates({
+    sender: creator,
+    signer: algorand.account.getSigner(creator),
+    args: {
+      voteStartDateStr,
+      voteStartDateUnix,
+      voteEndDateStr,
+      voteEndDateUnix,
+    },
+  })
 }
 
 export function castVote(algorand: AlgorandClient, sender: string, appId: bigint, choice: bigint) {

@@ -1,4 +1,5 @@
 import { Provider, useWallet } from '@txnlab/use-wallet'
+import { useEffect } from 'react'
 import Account from './Account'
 
 interface ConnectWalletInterface {
@@ -8,8 +9,14 @@ interface ConnectWalletInterface {
 
 const ConnectWallet = ({ openModal, closeModal }: ConnectWalletInterface) => {
   const { providers, activeAddress } = useWallet()
-
   const isKmd = (provider: Provider) => provider.metadata.name.toLowerCase() === 'kmd'
+
+  // Ensure the wallet is disconnected on page refresh or close
+  useEffect(() => {
+    if (!openModal) {
+      localStorage.removeItem('txnlab-use-wallet') // Disconnect the active wallet account when the modal closes
+    }
+  }, [openModal])
 
   return (
     <dialog id="connect_wallet_modal" className={`modal ${openModal ? 'modal-open' : ''}`}>
