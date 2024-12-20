@@ -1,3 +1,5 @@
+//src/methods.ts
+
 import { AlgorandClient, algo } from '@algorandfoundation/algokit-utils'
 import { VoteChainFactory } from './contracts/VoteChain'
 
@@ -51,22 +53,20 @@ export async function optIn(algorand: AlgorandClient, sender: string, appId: big
   })
 }
 
-export function optOut(algorand: AlgorandClient, sender: string, appId: bigint) {
-  return async () => {
-    const factory = algorand.client.getTypedAppFactory(VoteChainFactory)
+export async function optOut(algorand: AlgorandClient, sender: string, appId: bigint) {
+  const factory = algorand.client.getTypedAppFactory(VoteChainFactory)
 
-    // Get the app client by ID
-    const client = factory.getAppClientById({ appId })
+  // Get the app client by ID
+  const client = factory.getAppClientById({ appId })
 
-    // Send the opt-out transaction
-    await client.send.closeOut.optOut({
-      sender: sender,
-      signer: algorand.account.getSigner(sender),
-      args: {
-        account: sender,
-      },
-    })
-  }
+  // Send the opt-out transaction
+  await client.send.closeOut.optOut({
+    sender: sender,
+    signer: algorand.account.getSigner(sender),
+    args: {
+      account: sender,
+    },
+  })
 }
 
 export async function setVoteDates(
@@ -96,21 +96,19 @@ export async function setVoteDates(
   })
 }
 
-export function castVote(algorand: AlgorandClient, sender: string, appId: bigint, choice: bigint) {
-  return async () => {
-    const factory = algorand.client.getTypedAppFactory(VoteChainFactory)
+export async function submitVote(algorand: AlgorandClient, sender: string, appId: bigint, choice: bigint) {
+  const factory = algorand.client.getTypedAppFactory(VoteChainFactory)
 
-    // Get the app client by ID
-    const client = factory.getAppClientById({ appId })
+  // Get the app client by ID
+  const client = factory.getAppClientById({ appId })
 
-    // Send the opt-out transaction
-    await client.send.castVote({
-      sender: sender,
-      signer: algorand.account.getSigner(sender),
-      args: {
-        account: sender,
-        choice: choice,
-      },
-    })
-  }
+  // Send the opt-out transaction
+  await client.send.submitVote({
+    sender: sender,
+    signer: algorand.account.getSigner(sender),
+    args: {
+      account: sender,
+      choice: choice,
+    },
+  })
 }

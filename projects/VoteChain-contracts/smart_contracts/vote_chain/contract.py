@@ -118,12 +118,16 @@ class VoteChain(ARC4Contract):
         # Make necessary assertions to verify transaction requirements
         assert account.is_opted_in(
             Application(self.app_id.id)
-        ), "Account must first be opted-in in order to close out."
+        ), "Account must first be opted-in to App client in order to close out."
 
-        assert self.local_vote_status[account] == UInt64(0) or (
-            self.local_vote_status[account] == UInt64(1)
+        assert (  # Account is opted-in but hasn't voted yet
+            account.is_opted_in(Application(self.app_id.id))
+            and self.local_vote_choice[account] == UInt64(0)
+        ) or (  # Account is opted-in and has voted and voting period is over
+            account.is_opted_in(Application(self.app_id.id))
+            and self.local_vote_choice[account] != UInt64(0)
             and Global.latest_timestamp > self.vote_end_date_unix
-        ), "Can only opt out when voting period expires or if you haven't already voted."
+        ), "Requirements for opting-out of App client are insufficient."
 
         # Delete the user's local storage
         del self.local_vote_status[account]
@@ -139,7 +143,7 @@ class VoteChain(ARC4Contract):
             amount=self.calc_mbr() - min_txn_fee,
             sender=self.app_address,
             fee=min_txn_fee,
-            note="Opt-out MBR refund.",
+            note="MBR refund for closing out.",
         ).submit()
 
         # Log info on-chain
@@ -159,9 +163,22 @@ class VoteChain(ARC4Contract):
             Txn.sender == self.creator_address
         ), "Only App creator can set vote dates."
 
+        # UNCOMMENT WHEN DONE TESTING!
+        # assert (
+        #     vote_start_date_unix >= Global.latest_timestamp
+        # ), "Start date must be not be earlier than current date."
+
+        # assert (
+        #     vote_end_date_unix >= Global.latest_timestamp
+        # ), "End date must not be earlier than the current timestamp."
+
         assert (
             vote_start_date_unix < vote_end_date_unix
         ), "Start date must be earlier than end date."
+
+        assert vote_end_date_unix >= vote_start_date_unix + UInt64(
+            3 * 24 * 60 * 60
+        ), "End date must be at least 3 days later than the start date."
 
         assert vote_end_date_unix - vote_start_date_unix <= UInt64(
             14 * 24 * 60 * 60
@@ -182,25 +199,27 @@ class VoteChain(ARC4Contract):
 
     # Define abimethod that lets the user cast their vote
     @arc4.abimethod
-    def cast_vote(self, account: Account, choice: UInt64) -> None:
+    def submit_vote(self, account: Account, choice: UInt64) -> None:
         # Make necessary assertions to verify transaction requirements
         assert account.is_opted_in(
             Application(self.app_id.id)
         ), "Account must be opted-in before voting."
 
-        assert self.local_vote_status[account] == UInt64(
+        assert (
+            Global.latest_timestamp > self.vote_start_date_unix
+        ), "Voting period has not started yet."
+
+        assert (
+            Global.latest_timestamp < self.vote_end_date_unix
+        ), "Voting period has ended."
+
+        assert self.local_vote_choice[account] == UInt64(
             0
-        ), "This account already voted."
+        ), "This account already submitted a vote."
 
         assert (
             choice == UInt64(1) or choice == UInt64(2) or choice == UInt64(3)
-        ), "Invalid voting choice."
-
-        assert (
-            Global.latest_timestamp > self.vote_start_date_unix
-        ), "Voting has not started."
-
-        assert Global.latest_timestamp < self.vote_end_date_unix, "Voting has ended."
+        ), "Invalid choice. Can only choose between choices 1, 2, 3."
 
         # Mark the account as having voted
         self.local_vote_status[account] = UInt64(1)
@@ -220,5 +239,5 @@ class VoteChain(ARC4Contract):
             self.local_vote_choice[account] = UInt64(3)
 
         # Log info on-chain
-        log("Vote casted successfully for account addres: ", account)
-        log("Vote cased for choice: ", choice)
+        log("Vote submitted successfully for account address: ", account)
+        log("Vote submitted for choice number: ", choice)

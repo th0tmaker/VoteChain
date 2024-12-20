@@ -35,7 +35,7 @@ const ConnectWallet = ({ openModal, closeModal }: ConnectWalletInterface) => {
             providers?.map((provider) => (
               <button
                 data-test-id={`${provider.metadata.id}-connect`}
-                className="btn border-teal-800 border-1  m-2"
+                className="btn text-black hover:text-white hover:bg-green-700 border-teal-800 border-1 m-2"
                 key={`provider-${provider.metadata.id}`}
                 onClick={() => {
                   return provider.connect()

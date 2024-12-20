@@ -182,28 +182,28 @@ def test_set_vote_dates(app_client: VoteChainClient) -> None:
     assert set_vote_date_txn.confirmed_round
 
 
-# Test case for cast vote method
-def test_cast_vote(
+# Test case for submit vote method
+def test_submit_vote(
     algorand: AlgorandClient,
     app_client: VoteChainClient,
     app_client2: VoteChainClient,
     creator: AddressAndSigner,
     dummy: AddressAndSigner,
 ) -> None:
-    creator_cast_vote_txn = app_client.cast_vote(account=creator.address, choice=1)
-    assert creator_cast_vote_txn.confirmed_round
+    creator_submit_vote_txn = app_client.submit_vote(account=creator.address, choice=1)
+    assert creator_submit_vote_txn.confirmed_round
 
-    # dummy_cast_vote_txn = app_client2.cast_vote(account=dummy.address, choice=2)
-    # assert dummy_cast_vote_txn.confirmed_round
+    # dummy_submit_vote_txn = app_client2.submit_vote(account=dummy.address, choice=2)
+    # assert dummy_submit_vote_txn.confirmed_round
 
     # Log info
     logger.info(f"Global State attributes: {vars(app_client.get_global_state())}")
     log_local_state_info(app_client, creator.address, logger)
     # log_local_state_info(app_client, dummy.address, logger)
 
-    get_txn_logs(algorand, creator_cast_vote_txn.tx_id, logger)
+    get_txn_logs(algorand, creator_submit_vote_txn.tx_id, logger)
 
-    # test cast for updating vote dates (after they were already previous set) method
+    # test case for updating vote dates (after they were already previous set) method
     # def test_set_vote_dates_update(app_client: VoteChainClient) -> None:
     #     date_format = "%m/%d/%Y"
 
