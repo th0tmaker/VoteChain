@@ -1,3 +1,4 @@
+# tests/vote_chain_test.py
 import time
 
 import pytest
@@ -13,22 +14,22 @@ from .test_utils import get_txn_logs, log_local_state_info, setup_logger, setup_
 logger = setup_logger()
 
 
-# Create an Algorand client that points to the default local net port and token
+# Generate Algorand client that points to the default local net port and token
 @pytest.fixture(scope="session")
 def algorand() -> AlgorandClient:
     return AlgorandClient.default_local_net()
 
 
-# Create a dispenser account as AddreessAndSigner object that will fund other accounts
+# Generate a dispenser account as AddreessAndSigner object that will fund other accounts
 @pytest.fixture(scope="session")
 def dispenser(algorand: AlgorandClient) -> AddressAndSigner:
     return algorand.account.dispenser()
 
 
-# Create a random account for the DUMMY and fund it with some ALGO via the dispenser account
+# Generate a creator account for testing and fund it with some ALGO via the dispenser account
 @pytest.fixture(scope="session")
 def creator(algorand: AlgorandClient, dispenser: AddressAndSigner) -> AddressAndSigner:
-    # Generate a random Algorand account for the creator
+    # Create a random Algorand account for the creator
     creator = algorand.account.random()
     # Setup signed transaction that funds the creator account (Dispenser is funding 10 ALGO to creator account address)
     fund_creator_acc = setup_stxn(algorand, dispenser, creator.address, 10_000_000)
@@ -38,10 +39,10 @@ def creator(algorand: AlgorandClient, dispenser: AddressAndSigner) -> AddressAnd
     return creator
 
 
-# Create a random dummy account for testing and fund it with some ALGO via the dispenser account
+# Generate a random dummy account for testing and fund it with some ALGO via the dispenser account
 @pytest.fixture(scope="session")
 def dummy(algorand: AlgorandClient, dispenser: AddressAndSigner) -> AddressAndSigner:
-    # Generate a random Algorand account for the dummy
+    # Create a random Algorand account for the dummy
     dummy = algorand.account.random()
     # Setup signed transaction that funds the dummy account (Dispenser is funding 15 ALGO to dummy account address)
     fund_dummy_acc = setup_stxn(algorand, dispenser, dummy.address, 15_000_000)
@@ -51,42 +52,74 @@ def dummy(algorand: AlgorandClient, dispenser: AddressAndSigner) -> AddressAndSi
     return dummy
 
 
-# Create first instance of the smart contract App client
+# Generate the first instance of the smart contract App client
 @pytest.fixture(scope="session")
 def app_client(algorand: AlgorandClient, creator: AddressAndSigner) -> VoteChainClient:
-
+    # Creator evokes an instance of the smart contract client by sending a signed transaction to the algod network
     app_client = VoteChainClient(
         algod_client=algorand.client.algod,
         sender=creator.address,
         signer=creator.signer,
     )
 
-    app_client.create_create_app()
+    # Use App client to send a transaction that executes the 'create' abimethod within the smart contract
+    generate_app_txn = app_client.create_generate()
 
-    logger.info(f"DAPP ID: {app_client.app_id}")
-    logger.info(f"Global State attributes: {vars(app_client.get_global_state())}")
+    # Verify transaction was confirmed by the network
+    assert (
+        generate_app_txn.confirmed_round
+    ), "Create generate App txn round successfully confirmed."
+
+    # Log
+    logger.info(f"DAPP ID: {app_client.app_id}")  # Check App ID
+    logger.info(
+        f"Global State attributes: {vars(app_client.get_global_state())}"
+    )  # Check App Global State
 
     return app_client
 
 
-# Create second instance of the smart contract App client (by passing first instance client app id)
+# Generate a second instance of the smart contract App client (by passing first instance client app id as the reference)
 @pytest.fixture(scope="session")
 def app_client2(
     algorand: AlgorandClient, app_client: VoteChainClient, dummy: AddressAndSigner
 ) -> VoteChainClient:
-
+    # Dummy evokes an instance of the smart contract client by sending a signed transaction to the algod network
     app_client2 = VoteChainClient(
         algod_client=algorand.client.algod,
         sender=dummy.address,
         signer=dummy.signer,
-        app_id=app_client.app_id,
+        app_id=app_client.app_id,  # Dummy references creator's App client by ID to evoke their own client of same App
     )
 
     return app_client2
 
 
-# Test case for local storage OptIn method
-def test_opt_in_local_storage(
+# Test case for creator global storage allocation minimum balance requirement payment
+def test_global_storage_mbr(
+    algorand: AlgorandClient, app_client: VoteChainClient, creator: AddressAndSigner
+) -> None:
+
+    # Prepare transaction with signer for creator global schema MBR payment
+    creator_global_mbr_pay_stxn = setup_stxn(
+        algorand,
+        creator,
+        app_client.app_address,
+        428_000,
+        1000,  # 0.428 ALGO for every key-value + 0.001 extra fee
+    )
+
+    # Use App client to send a group transaction that executes the 'global_storage_mbr' abimethod and pays the MBR
+    global_mbr_gtxn = app_client.global_storage_mbr(mbr_pay=creator_global_mbr_pay_stxn)
+
+    # Verify transaction was confirmed by the network
+    assert (
+        global_mbr_gtxn.confirmed_round
+    ), "Global MBR gtxn round successfully confirmed."
+
+
+# Test case for user local storage opt in w/ minimum balance requirement payment
+def test_opt_in_local_storage_mbr(
     algorand: AlgorandClient,
     app_client: VoteChainClient,
     app_client2: VoteChainClient,
@@ -94,84 +127,111 @@ def test_opt_in_local_storage(
     dummy: AddressAndSigner,
 ) -> None:
 
-    # Prepare transaction with signer for creator MBR payment
-    creator_mbr_pay_app_stxn = setup_stxn(
-        algorand, creator, app_client.app_address, 257_000, 1000
+    # Prepare transaction with signer for creator local schema MBR payment
+    creator_local_mbr_pay_app_stxn = setup_stxn(
+        algorand,
+        creator,
+        app_client.app_address,
+        257_000,
+        1000,  # 0.257 ALGO for every key-value + 0.001 extra fee
     )
 
-    # Execute opt in local storage group transaction for creator Opt-In transaction
-    creator_opt_in_gtxn = app_client.opt_in_local_storage(
+    # Use App client to send a group transaction that executes the 'local_storage_mbr' opt-in abimethod and pays the MBR
+    creator_opt_in_local_mbr_gtxn = app_client.opt_in_local_storage_mbr(
         account=creator.address,
-        mbr_pay=creator_mbr_pay_app_stxn,
+        mbr_pay=creator_local_mbr_pay_app_stxn,
         transaction_parameters=TransactionParameters(foreign_apps=[app_client.app_id]),
     )
 
-    # Verify craetor opt in local storage group transaction confirmed
+    # Verify transaction was confirmed by the network
     assert (
-        creator_opt_in_gtxn.confirmed_round
-    ), "Random Opt-In round successfully confirmed."
+        creator_opt_in_local_mbr_gtxn.confirmed_round
+    ), "Creator Local Opt-In gtxn round successfully confirmed."
 
-    logger.info(f"Global State attributes: {vars(app_client.get_global_state())}")
-
-    # Prepare transaction with signer for dummy MBR payment
-    dummy_mbr_pay_app_stxn = setup_stxn(
+    # Do the same for the dummy account by using app_client2 (which references app_client by ID)
+    dummy_local_mbr_pay_app_stxn = setup_stxn(
         algorand, dummy, app_client2.app_address, 257_000, 1000
     )
 
-    # Execute opt in local storage group transaction for dummy Opt-In transaction
-    dummy_opt_in_gtxn = app_client2.opt_in_local_storage(
+    dummy_opt_in_local_mbr_gtxn = app_client2.opt_in_local_storage_mbr(
         account=dummy.address,
-        mbr_pay=dummy_mbr_pay_app_stxn,
+        mbr_pay=dummy_local_mbr_pay_app_stxn,
         transaction_parameters=TransactionParameters(foreign_apps=[app_client2.app_id]),
     )
 
-    # Verify dummy opt in local storage group transaction confirmed
     assert (
-        dummy_opt_in_gtxn.confirmed_round
-    ), "Random Opt-In round successfully confirmed."
+        dummy_opt_in_local_mbr_gtxn.confirmed_round
+    ), "Dummy Local Opt-In gtxn round successfully confirmed."
 
-    # Log info
+    # Log
     log_local_state_info(app_client, creator.address, logger)
-    # log_local_state_info(app_client, dummy.address, logger)
-
-    logger.info(f"Global State attributes: {vars(app_client.get_global_state())}")
+    log_local_state_info(app_client, dummy.address, logger)
 
 
-# Test case for CloseOut method
-def test_close_out(
+# Test case for user local storage opt out (via ["CloseOut"] abimethod) w/ minimum balance requirement payment refund
+def test_opt_out_local_storage(
     algorand: AlgorandClient,
     app_client: VoteChainClient,
     app_client2: VoteChainClient,
+    creator: AddressAndSigner,
     dummy: AddressAndSigner,
 ) -> None:
 
+    # Get creator account balance before close out method is called
+    creator_before_balance = algorand.account.get_information(creator.address)["amount"]
+    logger.info(f"Creator account balance before close out: {creator_before_balance}")
+
+    # Use App client to send a transaction that executes the 'out-out' close out abimethod for creator
+    creator_close_out_txn = app_client.close_out_opt_out(account=creator.address)
+
+    # Verify transaction was confirmed by the network
+    assert (
+        creator_close_out_txn.confirmed_round
+    ), "Creator opt out gtxn round successfully confirmed."
+
+    # Get creator account balance after close out method is called
+    creator_after_balance = algorand.account.get_information(creator.address)["amount"]
+
+    # Log
+    logger.info(f"Creator account balance after close out: {creator_after_balance}")
+    logger.info(f"Global State attributes: {vars(app_client.get_global_state())}")
+    get_txn_logs(algorand, creator_close_out_txn.tx_id, logger)
+
+    # Do the same test for dummy account
     dummy_before_balance = algorand.account.get_information(dummy.address)["amount"]
     logger.info(f"Dummy account balance before close out: {dummy_before_balance}")
 
     dummy_close_out_txn = app_client2.close_out_opt_out(account=dummy.address)
-    assert dummy_close_out_txn.confirmed_round
 
-    logger.info(f"Global State attributes: {vars(app_client.get_global_state())}")
-
-    # Log info
-    get_txn_logs(algorand, dummy_close_out_txn.tx_id, logger)
+    assert (
+        dummy_close_out_txn.confirmed_round
+    ), "Dummy opt out gtxn round successfully confirmed."
 
     dummy_after_balance = algorand.account.get_information(dummy.address)["amount"]
+
+    # Log
     logger.info(f"Dummy account balance after close out: {dummy_after_balance}")
+    logger.info(f"Global State attributes: {vars(app_client.get_global_state())}")
+    get_txn_logs(algorand, dummy_close_out_txn.tx_id, logger)
 
 
 # Test case for set vote dates method
 def test_set_vote_dates(app_client: VoteChainClient) -> None:
-    date_format = "%m/%d/%Y"
+    date_format = "%m/%d/%Y"  # define the desired date format ~ motnh/day/year
 
-    vote_start_date_str = "11/30/2024"
+    # Choose a start date that won't trip method assertions
+    vote_start_date_str = "12/22/2024"  #  write date as a string in specified format
     vote_start_date_unix = int(
         time.mktime(time.strptime(vote_start_date_str, date_format))
-    )
+    )  # Obtain start date unnix via time module by passing the start date string and the date format
 
-    vote_end_date_str = "12/13/2024"
-    vote_end_date_unix = int(time.mktime(time.strptime(vote_end_date_str, date_format)))
+    # Choose an end date that won't trip method assertions
+    vote_end_date_str = "01/05/2025"  #  write date as a string in specified format
+    vote_end_date_unix = int(
+        time.mktime(time.strptime(vote_end_date_str, date_format))
+    )  # Obtain end date unnix via time module by passing the start date string and the date format
 
+    # Use App client to send a transaction that executes the 'set_vote_dates' abimethod
     set_vote_date_txn = app_client.set_vote_dates(
         vote_start_date_str=vote_start_date_str,
         vote_start_date_unix=vote_start_date_unix,
@@ -179,47 +239,53 @@ def test_set_vote_dates(app_client: VoteChainClient) -> None:
         vote_end_date_unix=vote_end_date_unix,
     )
 
-    assert set_vote_date_txn.confirmed_round
+    # Verify transaction was confirmed by the network
+    assert (
+        set_vote_date_txn.confirmed_round
+    ), "Set vote dates transaction round successfully confirmed."
 
 
 # Test case for submit vote method
-def test_submit_vote(
-    algorand: AlgorandClient,
-    app_client: VoteChainClient,
-    app_client2: VoteChainClient,
-    creator: AddressAndSigner,
-    dummy: AddressAndSigner,
+# def test_submit_vote(
+#     algorand: AlgorandClient,
+#     app_client: VoteChainClient,
+#     app_client2: VoteChainClient,
+#     creator: AddressAndSigner,
+#     dummy: AddressAndSigner,
+# ) -> None:
+#     creator_submit_vote_txn = app_client.submit_vote(account=creator.address, choice=1)
+#     assert creator_submit_vote_txn.confirmed_round
+
+#     # dummy_submit_vote_txn = app_client2.submit_vote(account=dummy.address, choice=2)
+#     # assert dummy_submit_vote_txn.confirmed_round
+
+#     # Log info
+#     logger.info(f"Global State attributes: {vars(app_client.get_global_state())}")
+#     log_local_state_info(app_client, creator.address, logger)
+#     # log_local_state_info(app_client, dummy.address, logger)
+
+#     get_txn_logs(algorand, creator_submit_vote_txn.tx_id, logger)
+
+
+# Test case for deleting the smart contract App client
+def test_delete_app(
+    algorand: AlgorandClient, app_client: VoteChainClient, creator: AddressAndSigner
 ) -> None:
-    creator_submit_vote_txn = app_client.submit_vote(account=creator.address, choice=1)
-    assert creator_submit_vote_txn.confirmed_round
 
-    # dummy_submit_vote_txn = app_client2.submit_vote(account=dummy.address, choice=2)
-    # assert dummy_submit_vote_txn.confirmed_round
+    # Get creator account balance before delete method is called
+    creator_before_balance = algorand.account.get_information(creator.address)["amount"]
+    logger.info(f"Creator account balance before deletion: {creator_before_balance}")
 
-    # Log info
-    logger.info(f"Global State attributes: {vars(app_client.get_global_state())}")
-    log_local_state_info(app_client, creator.address, logger)
-    # log_local_state_info(app_client, dummy.address, logger)
+    # Use App client to send a transaction that executes the 'terminate' delete application abimethod
+    creator_delete_app_txn = app_client.delete_terminate()
 
-    get_txn_logs(algorand, creator_submit_vote_txn.tx_id, logger)
+    # Verify transaction was confirmed by the network
+    assert (
+        creator_delete_app_txn.confirmed_round
+    ), "Terminate App delete transaction round successfully confirmed."
 
-    # test case for updating vote dates (after they were already previous set) method
-    # def test_set_vote_dates_update(app_client: VoteChainClient) -> None:
-    #     date_format = "%m/%d/%Y"
+    # Get creator account balance after delete method is called
+    creator_after_balance = algorand.account.get_information(creator.address)["amount"]
 
-    #     vote_start_date_str = "11/30/2024"
-    #     vote_start_date_unix = int(
-    #         time.mktime(time.strptime(vote_start_date_str, date_format))
-    #     )
-
-    #     vote_end_date_str = "12/14/2024"
-    #     vote_end_date_unix = int(time.mktime(time.strptime(vote_end_date_str, date_format)))
-
-    #     set_vote_date_txn = app_client.set_vote_dates(
-    #         vote_start_date_str=vote_start_date_str,
-    #         vote_start_date_unix=vote_start_date_unix,
-    #         vote_end_date_str=vote_end_date_str,
-    #         vote_end_date_unix=vote_end_date_unix,
-    #     )
-
-    #     assert set_vote_date_txn.confirmed_round
+    # Log
+    logger.info(f"Creator account balance after deletion: {creator_after_balance}")
