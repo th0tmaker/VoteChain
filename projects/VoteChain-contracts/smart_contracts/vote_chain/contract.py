@@ -3,6 +3,7 @@ from algopy import (
     Account,
     Application,
     ARC4Contract,
+    Bytes,
     Global,
     LocalState,
     String,
@@ -18,16 +19,21 @@ from algopy import (
 
 class VoteChain(ARC4Contract):
     # Global State type declarations
-    vote_start_date_unix: UInt64
-    vote_end_date_unix: UInt64
-    vote_dates_final: UInt64
+    poll_title: Bytes
+    poll_choice1: Bytes
+    poll_choice2: Bytes
+    poll_choice3: Bytes
+
+    poll_start_date_unix: UInt64
+    poll_end_date_unix: UInt64
+    poll_finalized: UInt64
 
     total_accounts_opted_in: UInt64
 
-    choice1_vote_count: UInt64
-    choice2_vote_count: UInt64
-    choice3_vote_count: UInt64
-    total_vote_count: UInt64
+    choice1_total: UInt64
+    choice2_total: UInt64
+    choice3_total: UInt64
+    total_votes: UInt64
 
     def __init__(self) -> None:
         super().__init__()
@@ -49,7 +55,7 @@ class VoteChain(ARC4Contract):
     def calc_mbr(self, num_bytes: UInt64, num_uint: UInt64) -> UInt64:
         base_fee = UInt64(100_000)  # Base fee
         byte_fee = UInt64(50_000)  # Byte slice fee for key-value pair
-        uint_fee = UInt64(28_500)  # Uint fee for key-value pair
+        uint_fee = UInt64(28_500)  # UInt64 fee for key-value pair
 
         # Multiply respective fee cost with the number of key-value pairs in each schema to get total fee amount
         total_byte_fee = byte_fee * num_bytes
@@ -67,16 +73,17 @@ class VoteChain(ARC4Contract):
         ), "Transaction sender must match creator address."
 
         # Global storage variable assignments
-        self.vote_dates_final = UInt64(0)
-
         self.total_accounts_opted_in = UInt64(0)
 
-        self.choice1_vote_count = UInt64(0)
-        self.choice2_vote_count = UInt64(0)
-        self.choice3_vote_count = UInt64(0)
-        self.total_vote_count = UInt64(0)
+        self.poll_finalized = UInt64(0)
+
+        self.choice1_total = UInt64(0)
+        self.choice2_total = UInt64(0)
+        self.choice3_total = UInt64(0)
+        self.total_votes = UInt64(0)
 
         # Log info on-chain
+        arc4.emit("View(uint64)", Global.current_application_id.id)
         log(
             "Generation method successful for App ID: ",
             Global.current_application_id.id,
@@ -87,7 +94,7 @@ class VoteChain(ARC4Contract):
     def global_storage_mbr(self, mbr_pay: gtxn.PaymentTransaction) -> None:
         # Make necessary assertions to verify transaction requirements
         assert mbr_pay.amount == self.calc_mbr(
-            num_bytes=UInt64(0), num_uint=UInt64(8)  # Calc MBR for using global schema
+            num_bytes=UInt64(4), num_uint=UInt64(8)  # Calc MBR for using global schema
         ), "MBR payment must meet the minimum requirement amount."
         assert (
             mbr_pay.sender == Global.creator_address
@@ -135,13 +142,13 @@ class VoteChain(ARC4Contract):
             Application(Global.current_application_id.id)
         ), "Account must first be opted-in to App client in order to close out."
 
-        assert (  # Account is opted-in but hasn't voted yet
+        assert (  # Account is opted-in and hasn't voted yet
             account.is_opted_in(Application(Global.current_application_id.id))
             and self.local_vote_choice[account] == UInt64(0)
         ) or (  # Account is opted-in and has voted and voting period is over
             account.is_opted_in(Application(Global.current_application_id.id))
             and self.local_vote_choice[account] != UInt64(0)
-            and Global.latest_timestamp > self.vote_end_date_unix
+            and Global.latest_timestamp > self.poll_end_date_unix
         ), "Requirements for opting-out of App client are insufficient."
 
         # Delete the user's local storage
@@ -164,19 +171,31 @@ class VoteChain(ARC4Contract):
         # Log info on-chain
         log("Close-out method successful for account address: ", account)
 
-    # Define abimethod that allows the creator to set the vote dates
+    # Define abimethod that allows the creator to set up the poll values
     @arc4.abimethod()
-    def set_vote_dates(
+    def setup_poll(
         self,
-        vote_start_date_str: String,
-        vote_start_date_unix: UInt64,
-        vote_end_date_str: String,
-        vote_end_date_unix: UInt64,
+        title: Bytes,
+        choice1: Bytes,
+        choice2: Bytes,
+        choice3: Bytes,
+        start_date_str: String,
+        start_date_unix: UInt64,
+        end_date_str: String,
+        end_date_unix: UInt64,
     ) -> None:
         # Make necessary assertions to verify transaction requirements
         assert (
             Txn.sender == Global.creator_address
         ), "Only App creator can set vote dates."
+
+        assert (title.length <= UInt64(118)), "Poll title size can not exceed 118 bytes of data per key-value."
+
+        assert (
+            choice1.length <= UInt64(116) and
+            choice2.length <= UInt64(116) and
+            choice3.length <= UInt64(116)
+        ), "Poll choice size cannot exceed 116 bytes of data per key-value."
 
         # UNCOMMENT WHEN DONE TESTING!
         # assert (
@@ -188,29 +207,32 @@ class VoteChain(ARC4Contract):
         # ), "End date must not be earlier than the current timestamp."
 
         assert (
-            vote_start_date_unix < vote_end_date_unix
+            start_date_unix < end_date_unix
         ), "Start date must be earlier than end date."
 
-        assert vote_end_date_unix >= vote_start_date_unix + UInt64(
+        assert end_date_unix >= start_date_unix + UInt64(
             3 * 24 * 60 * 60
         ), "End date must be at least 3 days later than the start date."
 
-        assert vote_end_date_unix - vote_start_date_unix <= UInt64(
+        assert end_date_unix - start_date_unix <= UInt64(
             14 * 24 * 60 * 60
         ), "Voting period can not exceed 14 days."
 
-        assert self.vote_dates_final == UInt64(0), "Vote dates can only be set once."
+        assert self.poll_finalized == UInt64(0), "Poll can only be setup once."
 
-        # Get and store vote dates in unix int format
-        self.vote_start_date_unix = vote_start_date_unix
-        self.vote_end_date_unix = vote_end_date_unix
+        # Update global schema values
+        self.poll_title = title
+        self.poll_choice1 = choice1
+        self.poll_choice2 = choice2
+        self.poll_choice3 = choice3
+        self.poll_start_date_unix = start_date_unix
+        self.poll_end_date_unix = end_date_unix
 
-        # Make vote dates final
-        self.vote_dates_final = UInt64(1)
+        self.poll_finalized = UInt64(1)  # finalize poll
 
         # Log info on-chain
-        log("Vote start date: ", vote_start_date_str)
-        log("Vote end date: ", vote_end_date_str)
+        log("Poll start date: ", start_date_str)
+        log("Poll end date: ", end_date_str)
 
     # Define abimethod that allows any user to submit their vote
     @arc4.abimethod
@@ -221,11 +243,11 @@ class VoteChain(ARC4Contract):
         ), "Account must be opted-in before voting."
 
         assert (
-            Global.latest_timestamp > self.vote_start_date_unix
+            Global.latest_timestamp > self.poll_start_date_unix
         ), "Voting period has not started yet."
 
         assert (
-            Global.latest_timestamp < self.vote_end_date_unix
+            Global.latest_timestamp < self.poll_end_date_unix
         ), "Voting period has ended."
 
         assert self.local_vote_choice[account] == UInt64(
@@ -240,17 +262,17 @@ class VoteChain(ARC4Contract):
         self.local_vote_status[account] = UInt64(1)
 
         # Increment count for total votes
-        self.total_vote_count += UInt64(1)
+        self.total_votes += UInt64(1)
 
         # Update vote tally
         if choice == UInt64(1):
-            self.choice1_vote_count += UInt64(1)
+            self.choice1_total += UInt64(1)
             self.local_vote_choice[account] = UInt64(1)
         elif choice == UInt64(2):
-            self.choice2_vote_count += UInt64(1)
+            self.choice2_total += UInt64(1)
             self.local_vote_choice[account] = UInt64(2)
         else:
-            self.choice3_vote_count += UInt64(1)
+            self.choice3_total += UInt64(1)
             self.local_vote_choice[account] = UInt64(3)
 
         # Log info on-chain

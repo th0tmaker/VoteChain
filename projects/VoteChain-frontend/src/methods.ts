@@ -42,7 +42,7 @@ export async function payGlobalMbrCost(alogrand: AlgorandClient, creator: string
   const mbrPay = await alogrand.createTransaction.payment({
     sender: creator,
     receiver: client.appAddress,
-    amount: algo(0.1 + 0.1 + 0.228),
+    amount: algo(0.1 + 0.1 + 0.428),
     extraFee: algo(0.001),
   })
 
@@ -101,15 +101,19 @@ export async function optOut(algorand: AlgorandClient, sender: string, appId: bi
   })
 }
 
-// Creator sets vote dates
-export async function setVoteDates(
+// Creator sets up poll
+export async function setupPoll(
   algorand: AlgorandClient,
   creator: string,
   appId: bigint,
-  voteStartDateStr: string,
-  voteStartDateUnix: bigint,
-  voteEndDateStr: string,
-  voteEndDateUnix: bigint,
+  title: string,
+  choice1: string,
+  choice2: string,
+  choice3: string,
+  startDateStr: string,
+  startDateUnix: bigint,
+  endDateStr: string,
+  endDateUnix: bigint,
 ) {
   // Get App Factory
   const factory = algorand.client.getTypedAppFactory(VoteChainFactory)
@@ -118,14 +122,18 @@ export async function setVoteDates(
   const client = factory.getAppClientById({ appId })
 
   // Call the client 'set_vote_dates' abimethod w/ creator as sender and signer
-  await client.send.setVoteDates({
+  await client.send.setupPoll({
     sender: creator,
     signer: algorand.account.getSigner(creator),
     args: {
-      voteStartDateStr,
-      voteStartDateUnix,
-      voteEndDateStr,
-      voteEndDateUnix,
+      title: new TextEncoder().encode(title),
+      choice1: new TextEncoder().encode(choice1),
+      choice2: new TextEncoder().encode(choice2),
+      choice3: new TextEncoder().encode(choice3),
+      startDateStr: startDateStr,
+      startDateUnix: startDateUnix,
+      endDateStr: endDateStr,
+      endDateUnix: endDateUnix,
     },
   })
 }
@@ -169,6 +177,6 @@ export async function deleteApp(algorand: AlgorandClient, creator: string, appId
   await client.appClient.send.delete({
     sender: creator,
     signer: algorand.account.getSigner(creator),
-    method: 'delete_abi', // method required: must be specificed as 'delete-abi'
+    method: 'terminate',
   })
 }

@@ -1,5 +1,6 @@
 //src/types.ts
 
+import { AlgorandClient } from '@algorandfoundation/algokit-utils'
 import { VoteChainClient } from './contracts/VoteChain'
 
 // Interfaces for types
@@ -17,10 +18,9 @@ export interface PollProps {
   endDate: string
 } // define interface with the desired poll properties
 
-export interface JoinAppInterface<T> {
+export interface JoinAppInterface<> {
+  algorand: AlgorandClient
   openModal: boolean
   closeModal: () => void
-  apps: T[]
-  onAppJoin: (app: T) => void
-  getAppId: (app: T) => bigint
+  onAppJoin: (appId: bigint) => void
 }

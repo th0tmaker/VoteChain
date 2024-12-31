@@ -2,26 +2,26 @@
 
 smart_contracts.vote_chain.contract.VoteChain.approval_program:
     intcblock 0 1 2 1000
-    bytecblock "vote_choice" "total_accounts_opted_in" "vote_dates_final" "choice1_vote_count" "choice2_vote_count" "choice3_vote_count" "total_vote_count" "vote_status" "vote_end_date_unix" "vote_start_date_unix"
+    bytecblock "vote_choice" "total_accounts_opted_in" "poll_finalized" "choice1_total" "choice2_total" "choice3_total" "total_votes" "vote_status" "poll_end_date_unix" "poll_start_date_unix"
     callsub __puya_arc4_router__
     return
 
 
 // smart_contracts.vote_chain.contract.VoteChain.__puya_arc4_router__() -> uint64:
 __puya_arc4_router__:
-    // smart_contracts/vote_chain/contract.py:18
+    // smart_contracts/vote_chain/contract.py:20
     // class VoteChain(ARC4Contract):
     proto 0 1
     txn NumAppArgs
     bz __puya_arc4_router___after_if_else@12
-    pushbytess 0x5be219f0 0xf9744724 0x6f8aa888 0xb3fb275b 0xb1b28d75 0x4abfcdf3 0x5ff16da4 // method "generate()void", method "global_storage_mbr(pay)void", method "local_storage_mbr(account,pay)void", method "opt_out(account)void", method "set_vote_dates(string,uint64,string,uint64)void", method "submit_vote(account,uint64)void", method "terminate()void"
+    pushbytess 0x5be219f0 0xf9744724 0x6f8aa888 0xb3fb275b 0x189dc68e 0x4abfcdf3 0x5ff16da4 // method "generate()void", method "global_storage_mbr(pay)void", method "local_storage_mbr(account,pay)void", method "opt_out(account)void", method "setup_poll(byte[],byte[],byte[],byte[],string,uint64,string,uint64)void", method "submit_vote(account,uint64)void", method "terminate()void"
     txna ApplicationArgs 0
-    match __puya_arc4_router___generate_route@2 __puya_arc4_router___global_storage_mbr_route@3 __puya_arc4_router___local_storage_mbr_route@4 __puya_arc4_router___opt_out_route@5 __puya_arc4_router___set_vote_dates_route@6 __puya_arc4_router___submit_vote_route@7 __puya_arc4_router___terminate_route@8
+    match __puya_arc4_router___generate_route@2 __puya_arc4_router___global_storage_mbr_route@3 __puya_arc4_router___local_storage_mbr_route@4 __puya_arc4_router___opt_out_route@5 __puya_arc4_router___setup_poll_route@6 __puya_arc4_router___submit_vote_route@7 __puya_arc4_router___terminate_route@8
     intc_0 // 0
     retsub
 
 __puya_arc4_router___generate_route@2:
-    // smart_contracts/vote_chain/contract.py:60-61
+    // smart_contracts/vote_chain/contract.py:67-68
     // # Define abimethod that creates the smart contract App
     // @arc4.abimethod(create="require")
     txn OnCompletion
@@ -35,7 +35,7 @@ __puya_arc4_router___generate_route@2:
     retsub
 
 __puya_arc4_router___global_storage_mbr_route@3:
-    // smart_contracts/vote_chain/contract.py:84-85
+    // smart_contracts/vote_chain/contract.py:92-93
     // # Define abimethod that allows the creator to use global storage by paying a MBR cost
     // @arc4.abimethod()
     txn OnCompletion
@@ -43,7 +43,7 @@ __puya_arc4_router___global_storage_mbr_route@3:
     assert // OnCompletion is not NoOp
     txn ApplicationID
     assert // can only call when not creating
-    // smart_contracts/vote_chain/contract.py:18
+    // smart_contracts/vote_chain/contract.py:20
     // class VoteChain(ARC4Contract):
     txn GroupIndex
     intc_1 // 1
@@ -53,7 +53,7 @@ __puya_arc4_router___global_storage_mbr_route@3:
     intc_1 // pay
     ==
     assert // transaction type is pay
-    // smart_contracts/vote_chain/contract.py:84-85
+    // smart_contracts/vote_chain/contract.py:92-93
     // # Define abimethod that allows the creator to use global storage by paying a MBR cost
     // @arc4.abimethod()
     callsub global_storage_mbr
@@ -61,7 +61,7 @@ __puya_arc4_router___global_storage_mbr_route@3:
     retsub
 
 __puya_arc4_router___local_storage_mbr_route@4:
-    // smart_contracts/vote_chain/contract.py:101-102
+    // smart_contracts/vote_chain/contract.py:109-110
     // # Define abimethod that allows any user to opt in to the smart contract's local storage by paying a MBR cost
     // @arc4.abimethod(allow_actions=["OptIn"])
     txn OnCompletion
@@ -70,7 +70,7 @@ __puya_arc4_router___local_storage_mbr_route@4:
     assert // OnCompletion is not OptIn
     txn ApplicationID
     assert // can only call when not creating
-    // smart_contracts/vote_chain/contract.py:18
+    // smart_contracts/vote_chain/contract.py:20
     // class VoteChain(ARC4Contract):
     txna ApplicationArgs 1
     btoi
@@ -83,7 +83,7 @@ __puya_arc4_router___local_storage_mbr_route@4:
     intc_1 // pay
     ==
     assert // transaction type is pay
-    // smart_contracts/vote_chain/contract.py:101-102
+    // smart_contracts/vote_chain/contract.py:109-110
     // # Define abimethod that allows any user to opt in to the smart contract's local storage by paying a MBR cost
     // @arc4.abimethod(allow_actions=["OptIn"])
     callsub local_storage_mbr
@@ -91,7 +91,7 @@ __puya_arc4_router___local_storage_mbr_route@4:
     retsub
 
 __puya_arc4_router___opt_out_route@5:
-    // smart_contracts/vote_chain/contract.py:129-130
+    // smart_contracts/vote_chain/contract.py:137-138
     // # Define abimethod that allows any user to opt out of the smart contract's local storage via the 'close out' method
     // @arc4.abimethod(allow_actions=["CloseOut"])
     txn OnCompletion
@@ -100,46 +100,54 @@ __puya_arc4_router___opt_out_route@5:
     assert // OnCompletion is not CloseOut
     txn ApplicationID
     assert // can only call when not creating
-    // smart_contracts/vote_chain/contract.py:18
+    // smart_contracts/vote_chain/contract.py:20
     // class VoteChain(ARC4Contract):
     txna ApplicationArgs 1
     btoi
     txnas Accounts
-    // smart_contracts/vote_chain/contract.py:129-130
+    // smart_contracts/vote_chain/contract.py:137-138
     // # Define abimethod that allows any user to opt out of the smart contract's local storage via the 'close out' method
     // @arc4.abimethod(allow_actions=["CloseOut"])
     callsub opt_out
     intc_1 // 1
     retsub
 
-__puya_arc4_router___set_vote_dates_route@6:
-    // smart_contracts/vote_chain/contract.py:166-167
-    // # Define abimethod that allows the creator to set the vote dates
+__puya_arc4_router___setup_poll_route@6:
+    // smart_contracts/vote_chain/contract.py:174-175
+    // # Define abimethod that allows the creator to set up the poll values
     // @arc4.abimethod()
     txn OnCompletion
     !
     assert // OnCompletion is not NoOp
     txn ApplicationID
     assert // can only call when not creating
-    // smart_contracts/vote_chain/contract.py:18
+    // smart_contracts/vote_chain/contract.py:20
     // class VoteChain(ARC4Contract):
     txna ApplicationArgs 1
     extract 2 0
     txna ApplicationArgs 2
-    btoi
+    extract 2 0
     txna ApplicationArgs 3
     extract 2 0
     txna ApplicationArgs 4
+    extract 2 0
+    txna ApplicationArgs 5
+    extract 2 0
+    txna ApplicationArgs 6
     btoi
-    // smart_contracts/vote_chain/contract.py:166-167
-    // # Define abimethod that allows the creator to set the vote dates
+    txna ApplicationArgs 7
+    extract 2 0
+    txna ApplicationArgs 8
+    btoi
+    // smart_contracts/vote_chain/contract.py:174-175
+    // # Define abimethod that allows the creator to set up the poll values
     // @arc4.abimethod()
-    callsub set_vote_dates
+    callsub setup_poll
     intc_1 // 1
     retsub
 
 __puya_arc4_router___submit_vote_route@7:
-    // smart_contracts/vote_chain/contract.py:214-215
+    // smart_contracts/vote_chain/contract.py:237-238
     // # Define abimethod that allows any user to submit their vote
     // @arc4.abimethod
     txn OnCompletion
@@ -147,14 +155,14 @@ __puya_arc4_router___submit_vote_route@7:
     assert // OnCompletion is not NoOp
     txn ApplicationID
     assert // can only call when not creating
-    // smart_contracts/vote_chain/contract.py:18
+    // smart_contracts/vote_chain/contract.py:20
     // class VoteChain(ARC4Contract):
     txna ApplicationArgs 1
     btoi
     txnas Accounts
     txna ApplicationArgs 2
     btoi
-    // smart_contracts/vote_chain/contract.py:214-215
+    // smart_contracts/vote_chain/contract.py:237-238
     // # Define abimethod that allows any user to submit their vote
     // @arc4.abimethod
     callsub submit_vote
@@ -162,7 +170,7 @@ __puya_arc4_router___submit_vote_route@7:
     retsub
 
 __puya_arc4_router___terminate_route@8:
-    // smart_contracts/vote_chain/contract.py:259-260
+    // smart_contracts/vote_chain/contract.py:282-283
     // # Define abimethod that allows the creator to delete App and get their global schema MBR cost refunded
     // @arc4.abimethod(allow_actions=["DeleteApplication"])
     txn OnCompletion
@@ -176,7 +184,7 @@ __puya_arc4_router___terminate_route@8:
     retsub
 
 __puya_arc4_router___after_if_else@12:
-    // smart_contracts/vote_chain/contract.py:18
+    // smart_contracts/vote_chain/contract.py:20
     // class VoteChain(ARC4Contract):
     intc_0 // 0
     retsub
@@ -184,62 +192,70 @@ __puya_arc4_router___after_if_else@12:
 
 // smart_contracts.vote_chain.contract.VoteChain.generate() -> void:
 generate:
-    // smart_contracts/vote_chain/contract.py:60-62
+    // smart_contracts/vote_chain/contract.py:67-69
     // # Define abimethod that creates the smart contract App
     // @arc4.abimethod(create="require")
     // def generate(self) -> None:
     proto 0 0
-    // smart_contracts/vote_chain/contract.py:65
+    // smart_contracts/vote_chain/contract.py:72
     // Txn.sender == Global.creator_address
     txn Sender
     global CreatorAddress
     ==
-    // smart_contracts/vote_chain/contract.py:63-66
+    // smart_contracts/vote_chain/contract.py:70-73
     // # Make necessary assertions to verify transaction requirements
     // assert (
     //     Txn.sender == Global.creator_address
     // ), "Transaction sender must match creator address."
     assert // Transaction sender must match creator address.
-    // smart_contracts/vote_chain/contract.py:68-69
+    // smart_contracts/vote_chain/contract.py:75-76
     // # Global storage variable assignments
-    // self.vote_dates_final = UInt64(0)
-    bytec_2 // "vote_dates_final"
-    intc_0 // 0
-    app_global_put
-    // smart_contracts/vote_chain/contract.py:71
     // self.total_accounts_opted_in = UInt64(0)
     bytec_1 // "total_accounts_opted_in"
     intc_0 // 0
     app_global_put
-    // smart_contracts/vote_chain/contract.py:73
-    // self.choice1_vote_count = UInt64(0)
-    bytec_3 // "choice1_vote_count"
+    // smart_contracts/vote_chain/contract.py:78
+    // self.poll_finalized = UInt64(0)
+    bytec_2 // "poll_finalized"
     intc_0 // 0
     app_global_put
-    // smart_contracts/vote_chain/contract.py:74
-    // self.choice2_vote_count = UInt64(0)
-    bytec 4 // "choice2_vote_count"
-    intc_0 // 0
-    app_global_put
-    // smart_contracts/vote_chain/contract.py:75
-    // self.choice3_vote_count = UInt64(0)
-    bytec 5 // "choice3_vote_count"
-    intc_0 // 0
-    app_global_put
-    // smart_contracts/vote_chain/contract.py:76
-    // self.total_vote_count = UInt64(0)
-    bytec 6 // "total_vote_count"
+    // smart_contracts/vote_chain/contract.py:80
+    // self.choice1_total = UInt64(0)
+    bytec_3 // "choice1_total"
     intc_0 // 0
     app_global_put
     // smart_contracts/vote_chain/contract.py:81
+    // self.choice2_total = UInt64(0)
+    bytec 4 // "choice2_total"
+    intc_0 // 0
+    app_global_put
+    // smart_contracts/vote_chain/contract.py:82
+    // self.choice3_total = UInt64(0)
+    bytec 5 // "choice3_total"
+    intc_0 // 0
+    app_global_put
+    // smart_contracts/vote_chain/contract.py:83
+    // self.total_votes = UInt64(0)
+    bytec 6 // "total_votes"
+    intc_0 // 0
+    app_global_put
+    // smart_contracts/vote_chain/contract.py:85-86
+    // # Log info on-chain
+    // arc4.emit("View(uint64)", Global.current_application_id.id)
+    global CurrentApplicationID
+    itob
+    pushbytes 0xc63761cf // method "View(uint64)"
+    swap
+    concat
+    log
+    // smart_contracts/vote_chain/contract.py:89
     // Global.current_application_id.id,
     global CurrentApplicationID
     itob
     pushbytes "Generation method successful for App ID: "
     swap
     concat
-    // smart_contracts/vote_chain/contract.py:78-82
-    // # Log info on-chain
+    // smart_contracts/vote_chain/contract.py:87-90
     // log(
     //     "Generation method successful for App ID: ",
     //     Global.current_application_id.id,
@@ -250,51 +266,50 @@ generate:
 
 // smart_contracts.vote_chain.contract.VoteChain.global_storage_mbr(mbr_pay: uint64) -> void:
 global_storage_mbr:
-    // smart_contracts/vote_chain/contract.py:84-86
+    // smart_contracts/vote_chain/contract.py:92-94
     // # Define abimethod that allows the creator to use global storage by paying a MBR cost
     // @arc4.abimethod()
     // def global_storage_mbr(self, mbr_pay: gtxn.PaymentTransaction) -> None:
     proto 1 0
-    // smart_contracts/vote_chain/contract.py:87-88
+    // smart_contracts/vote_chain/contract.py:95-96
     // # Make necessary assertions to verify transaction requirements
     // assert mbr_pay.amount == self.calc_mbr(
     frame_dig -1
     gtxns Amount
-    // smart_contracts/vote_chain/contract.py:89
-    // num_bytes=UInt64(0), num_uint=UInt64(8)  # Calc MBR for using global schema
-    intc_0 // 0
-    pushint 8 // 8
-    // smart_contracts/vote_chain/contract.py:87-90
+    // smart_contracts/vote_chain/contract.py:97
+    // num_bytes=UInt64(4), num_uint=UInt64(8)  # Calc MBR for using global schema
+    pushints 4 8 // 4, 8
+    // smart_contracts/vote_chain/contract.py:95-98
     // # Make necessary assertions to verify transaction requirements
     // assert mbr_pay.amount == self.calc_mbr(
-    //     num_bytes=UInt64(0), num_uint=UInt64(8)  # Calc MBR for using global schema
+    //     num_bytes=UInt64(4), num_uint=UInt64(8)  # Calc MBR for using global schema
     // ), "MBR payment must meet the minimum requirement amount."
     callsub calc_mbr
     ==
     assert // MBR payment must meet the minimum requirement amount.
-    // smart_contracts/vote_chain/contract.py:92
+    // smart_contracts/vote_chain/contract.py:100
     // mbr_pay.sender == Global.creator_address
     frame_dig -1
     gtxns Sender
     global CreatorAddress
     ==
-    // smart_contracts/vote_chain/contract.py:91-93
+    // smart_contracts/vote_chain/contract.py:99-101
     // assert (
     //     mbr_pay.sender == Global.creator_address
     // ), "MBR payment sender must match the App creator account."
     assert // MBR payment sender must match the App creator account.
-    // smart_contracts/vote_chain/contract.py:95
+    // smart_contracts/vote_chain/contract.py:103
     // mbr_pay.receiver == Global.current_application_address
     frame_dig -1
     gtxns Receiver
     global CurrentApplicationAddress
     ==
-    // smart_contracts/vote_chain/contract.py:94-96
+    // smart_contracts/vote_chain/contract.py:102-104
     // assert (
     //     mbr_pay.receiver == Global.current_application_address
     // ), "MBR payment reciever must be the App address."
     assert // MBR payment reciever must be the App address.
-    // smart_contracts/vote_chain/contract.py:98-99
+    // smart_contracts/vote_chain/contract.py:106-107
     // # Log info on-chain
     // log("Global State successfully funded by account address: ", Txn.sender)
     pushbytes "Global State successfully funded by account address: "
@@ -306,34 +321,34 @@ global_storage_mbr:
 
 // smart_contracts.vote_chain.contract.VoteChain.calc_mbr(num_bytes: uint64, num_uint: uint64) -> uint64:
 calc_mbr:
-    // smart_contracts/vote_chain/contract.py:46-48
+    // smart_contracts/vote_chain/contract.py:53-55
     // # Define subroutine that calculates the minimum balance requirement total cost
     // @subroutine
     // def calc_mbr(self, num_bytes: UInt64, num_uint: UInt64) -> UInt64:
     proto 2 1
-    // smart_contracts/vote_chain/contract.py:50
+    // smart_contracts/vote_chain/contract.py:57
     // byte_fee = UInt64(50_000)  # Byte slice fee for key-value pair
     pushint 50000 // 50000
-    // smart_contracts/vote_chain/contract.py:53-54
+    // smart_contracts/vote_chain/contract.py:60-61
     // # Multiply respective fee cost with the number of key-value pairs in each schema to get total fee amount
     // total_byte_fee = byte_fee * num_bytes
     frame_dig -2
     *
-    // smart_contracts/vote_chain/contract.py:51
-    // uint_fee = UInt64(28_500)  # Uint fee for key-value pair
+    // smart_contracts/vote_chain/contract.py:58
+    // uint_fee = UInt64(28_500)  # UInt64 fee for key-value pair
     pushint 28500 // 28500
-    // smart_contracts/vote_chain/contract.py:55
+    // smart_contracts/vote_chain/contract.py:62
     // total_uint_fee = uint_fee * num_uint
     frame_dig -1
     *
-    // smart_contracts/vote_chain/contract.py:57-58
+    // smart_contracts/vote_chain/contract.py:64-65
     // # Return the minimum balance requirement total cost
     // return Global.min_balance + base_fee + total_byte_fee + total_uint_fee
     global MinBalance
-    // smart_contracts/vote_chain/contract.py:49
+    // smart_contracts/vote_chain/contract.py:56
     // base_fee = UInt64(100_000)  # Base fee
     pushint 100000 // 100000
-    // smart_contracts/vote_chain/contract.py:57-58
+    // smart_contracts/vote_chain/contract.py:64-65
     // # Return the minimum balance requirement total cost
     // return Global.min_balance + base_fee + total_byte_fee + total_uint_fee
     +
@@ -345,23 +360,23 @@ calc_mbr:
 
 // smart_contracts.vote_chain.contract.VoteChain.local_storage_mbr(account: bytes, mbr_pay: uint64) -> void:
 local_storage_mbr:
-    // smart_contracts/vote_chain/contract.py:101-105
+    // smart_contracts/vote_chain/contract.py:109-113
     // # Define abimethod that allows any user to opt in to the smart contract's local storage by paying a MBR cost
     // @arc4.abimethod(allow_actions=["OptIn"])
     // def local_storage_mbr(
     //     self, account: Account, mbr_pay: gtxn.PaymentTransaction
     // ) -> None:
     proto 2 0
-    // smart_contracts/vote_chain/contract.py:106-107
+    // smart_contracts/vote_chain/contract.py:114-115
     // # Make necessary assertions to verify transaction requirements
     // assert mbr_pay.amount == self.calc_mbr(
     frame_dig -1
     gtxns Amount
-    // smart_contracts/vote_chain/contract.py:108
+    // smart_contracts/vote_chain/contract.py:116
     // num_bytes=UInt64(0), num_uint=UInt64(2)  # Calc MBR for using local schema
     intc_0 // 0
     intc_2 // 2
-    // smart_contracts/vote_chain/contract.py:106-109
+    // smart_contracts/vote_chain/contract.py:114-117
     // # Make necessary assertions to verify transaction requirements
     // assert mbr_pay.amount == self.calc_mbr(
     //     num_bytes=UInt64(0), num_uint=UInt64(2)  # Calc MBR for using local schema
@@ -369,43 +384,43 @@ local_storage_mbr:
     callsub calc_mbr
     ==
     assert // MBR payment must meet the minimum requirement amount.
-    // smart_contracts/vote_chain/contract.py:111
+    // smart_contracts/vote_chain/contract.py:119
     // mbr_pay.sender == account
     frame_dig -1
     gtxns Sender
     frame_dig -2
     ==
-    // smart_contracts/vote_chain/contract.py:110-112
+    // smart_contracts/vote_chain/contract.py:118-120
     // assert (
     //     mbr_pay.sender == account
     // ), "MBR payment sender must match the account opting in."
     assert // MBR payment sender must match the account opting in.
-    // smart_contracts/vote_chain/contract.py:114
+    // smart_contracts/vote_chain/contract.py:122
     // mbr_pay.receiver == Global.current_application_address
     frame_dig -1
     gtxns Receiver
     global CurrentApplicationAddress
     ==
-    // smart_contracts/vote_chain/contract.py:113-115
+    // smart_contracts/vote_chain/contract.py:121-123
     // assert (
     //     mbr_pay.receiver == Global.current_application_address
     // ), "MBR payment reciever must be the App address."
     assert // MBR payment reciever must be the App address.
-    // smart_contracts/vote_chain/contract.py:117-118
+    // smart_contracts/vote_chain/contract.py:125-126
     // # Change local state var 'self.local_vote_status' (specific to account) value from 'None' to '0'
     // self.local_vote_status[account] = UInt64(0)
     frame_dig -2
     bytec 7 // "vote_status"
     intc_0 // 0
     app_local_put
-    // smart_contracts/vote_chain/contract.py:120-121
+    // smart_contracts/vote_chain/contract.py:128-129
     // # Change local state var 'self.local_vote_choice' (specific to account) value from 'None' to '0'
     // self.local_vote_choice[account] = UInt64(0)
     frame_dig -2
     bytec_0 // "vote_choice"
     intc_0 // 0
     app_local_put
-    // smart_contracts/vote_chain/contract.py:123-124
+    // smart_contracts/vote_chain/contract.py:131-132
     // # Increment count for total accounts opted in
     // self.total_accounts_opted_in += UInt64(1)
     intc_0 // 0
@@ -417,7 +432,7 @@ local_storage_mbr:
     bytec_1 // "total_accounts_opted_in"
     swap
     app_global_put
-    // smart_contracts/vote_chain/contract.py:126-127
+    // smart_contracts/vote_chain/contract.py:134-135
     // # Log info on-chain
     // log("Local State successfully funded by account address: ", Txn.sender)
     pushbytes "Local State successfully funded by account address: "
@@ -429,83 +444,83 @@ local_storage_mbr:
 
 // smart_contracts.vote_chain.contract.VoteChain.opt_out(account: bytes) -> void:
 opt_out:
-    // smart_contracts/vote_chain/contract.py:129-131
+    // smart_contracts/vote_chain/contract.py:137-139
     // # Define abimethod that allows any user to opt out of the smart contract's local storage via the 'close out' method
     // @arc4.abimethod(allow_actions=["CloseOut"])
     // def opt_out(self, account: Account) -> None:
     proto 1 0
-    // smart_contracts/vote_chain/contract.py:132-135
+    // smart_contracts/vote_chain/contract.py:140-143
     // # Make necessary assertions to verify transaction requirements
     // assert account.is_opted_in(
     //     Application(Global.current_application_id.id)
     // ), "Account must first be opted-in to App client in order to close out."
     frame_dig -1
-    // smart_contracts/vote_chain/contract.py:134
+    // smart_contracts/vote_chain/contract.py:142
     // Application(Global.current_application_id.id)
     global CurrentApplicationID
-    // smart_contracts/vote_chain/contract.py:132-135
+    // smart_contracts/vote_chain/contract.py:140-143
     // # Make necessary assertions to verify transaction requirements
     // assert account.is_opted_in(
     //     Application(Global.current_application_id.id)
     // ), "Account must first be opted-in to App client in order to close out."
     app_opted_in
     assert // Account must first be opted-in to App client in order to close out.
-    // smart_contracts/vote_chain/contract.py:138
+    // smart_contracts/vote_chain/contract.py:146
     // account.is_opted_in(Application(Global.current_application_id.id))
     frame_dig -1
     global CurrentApplicationID
     app_opted_in
-    // smart_contracts/vote_chain/contract.py:138-139
+    // smart_contracts/vote_chain/contract.py:146-147
     // account.is_opted_in(Application(Global.current_application_id.id))
     // and self.local_vote_choice[account] == UInt64(0)
     bz opt_out_or_contd@2
-    // smart_contracts/vote_chain/contract.py:139
+    // smart_contracts/vote_chain/contract.py:147
     // and self.local_vote_choice[account] == UInt64(0)
     frame_dig -1
     intc_0 // 0
     bytec_0 // "vote_choice"
     app_local_get_ex
     assert // check self.local_vote_choice exists for account
-    // smart_contracts/vote_chain/contract.py:138-139
+    // smart_contracts/vote_chain/contract.py:146-147
     // account.is_opted_in(Application(Global.current_application_id.id))
     // and self.local_vote_choice[account] == UInt64(0)
     bz opt_out_bool_true@5
 
 opt_out_or_contd@2:
-    // smart_contracts/vote_chain/contract.py:141
+    // smart_contracts/vote_chain/contract.py:149
     // account.is_opted_in(Application(Global.current_application_id.id))
     frame_dig -1
     global CurrentApplicationID
     app_opted_in
-    // smart_contracts/vote_chain/contract.py:141-143
+    // smart_contracts/vote_chain/contract.py:149-151
     // account.is_opted_in(Application(Global.current_application_id.id))
     // and self.local_vote_choice[account] != UInt64(0)
-    // and Global.latest_timestamp > self.vote_end_date_unix
+    // and Global.latest_timestamp > self.poll_end_date_unix
     bz opt_out_bool_false@6
-    // smart_contracts/vote_chain/contract.py:142
+    // smart_contracts/vote_chain/contract.py:150
     // and self.local_vote_choice[account] != UInt64(0)
     frame_dig -1
     intc_0 // 0
     bytec_0 // "vote_choice"
     app_local_get_ex
     assert // check self.local_vote_choice exists for account
-    // smart_contracts/vote_chain/contract.py:141-143
+    // smart_contracts/vote_chain/contract.py:149-151
     // account.is_opted_in(Application(Global.current_application_id.id))
     // and self.local_vote_choice[account] != UInt64(0)
-    // and Global.latest_timestamp > self.vote_end_date_unix
+    // and Global.latest_timestamp > self.poll_end_date_unix
     bz opt_out_bool_false@6
-    // smart_contracts/vote_chain/contract.py:143
-    // and Global.latest_timestamp > self.vote_end_date_unix
+    // smart_contracts/vote_chain/contract.py:151
+    // and Global.latest_timestamp > self.poll_end_date_unix
     global LatestTimestamp
     intc_0 // 0
-    bytec 8 // "vote_end_date_unix"
+    bytec 8 // "poll_end_date_unix"
     app_global_get_ex
-    assert // check self.vote_end_date_unix exists
+    assert // check self.poll_end_date_unix exists
     >
-    // smart_contracts/vote_chain/contract.py:141-143
+    // smart_contracts/vote_chain/contract.py:149-151
     // account.is_opted_in(Application(Global.current_application_id.id))
     // and self.local_vote_choice[account] != UInt64(0)
-    // and Global.latest_timestamp > self.vote_end_date_unix
+    // and Global.latest_timestamp > self.poll_end_date_unix
     bz opt_out_bool_false@6
 
 opt_out_bool_true@5:
@@ -516,28 +531,28 @@ opt_out_bool_false@6:
     intc_0 // 0
 
 opt_out_bool_merge@7:
-    // smart_contracts/vote_chain/contract.py:137-144
+    // smart_contracts/vote_chain/contract.py:145-152
     // assert (  # Account is opted-in but hasn't voted yet
     //     account.is_opted_in(Application(Global.current_application_id.id))
     //     and self.local_vote_choice[account] == UInt64(0)
     // ) or (  # Account is opted-in and has voted and voting period is over
     //     account.is_opted_in(Application(Global.current_application_id.id))
     //     and self.local_vote_choice[account] != UInt64(0)
-    //     and Global.latest_timestamp > self.vote_end_date_unix
+    //     and Global.latest_timestamp > self.poll_end_date_unix
     // ), "Requirements for opting-out of App client are insufficient."
     assert // Requirements for opting-out of App client are insufficient.
-    // smart_contracts/vote_chain/contract.py:146-147
+    // smart_contracts/vote_chain/contract.py:154-155
     // # Delete the user's local storage
     // del self.local_vote_status[account]
     frame_dig -1
     bytec 7 // "vote_status"
     app_local_del
-    // smart_contracts/vote_chain/contract.py:148
+    // smart_contracts/vote_chain/contract.py:156
     // del self.local_vote_choice[account]
     frame_dig -1
     bytec_0 // "vote_choice"
     app_local_del
-    // smart_contracts/vote_chain/contract.py:150-151
+    // smart_contracts/vote_chain/contract.py:158-159
     // # Decrease the total count of opted-in accounts
     // self.total_accounts_opted_in -= UInt64(1)
     intc_0 // 0
@@ -549,7 +564,7 @@ opt_out_bool_merge@7:
     bytec_1 // "total_accounts_opted_in"
     swap
     app_global_put
-    // smart_contracts/vote_chain/contract.py:155-161
+    // smart_contracts/vote_chain/contract.py:163-169
     // itxn.Payment(
     //     receiver=account,
     //     amount=self.calc_mbr(num_bytes=UInt64(0), num_uint=UInt64(2)) - min_txn_fee,
@@ -558,22 +573,22 @@ opt_out_bool_merge@7:
     //     note="MBR refund for closing out.",
     // ).submit()
     itxn_begin
-    // smart_contracts/vote_chain/contract.py:157
+    // smart_contracts/vote_chain/contract.py:165
     // amount=self.calc_mbr(num_bytes=UInt64(0), num_uint=UInt64(2)) - min_txn_fee,
     intc_0 // 0
     intc_2 // 2
     callsub calc_mbr
-    // smart_contracts/vote_chain/contract.py:153-154
+    // smart_contracts/vote_chain/contract.py:161-162
     // # Submit inner transaction (account gets their mbr payment refunded)
     // min_txn_fee = UInt64(1000)
     intc_3 // 1000
-    // smart_contracts/vote_chain/contract.py:157
+    // smart_contracts/vote_chain/contract.py:165
     // amount=self.calc_mbr(num_bytes=UInt64(0), num_uint=UInt64(2)) - min_txn_fee,
     -
-    // smart_contracts/vote_chain/contract.py:158
+    // smart_contracts/vote_chain/contract.py:166
     // sender=Global.current_application_address,
     global CurrentApplicationAddress
-    // smart_contracts/vote_chain/contract.py:160
+    // smart_contracts/vote_chain/contract.py:168
     // note="MBR refund for closing out.",
     pushbytes "MBR refund for closing out."
     itxn_field Note
@@ -581,16 +596,16 @@ opt_out_bool_merge@7:
     itxn_field Amount
     frame_dig -1
     itxn_field Receiver
-    // smart_contracts/vote_chain/contract.py:155
+    // smart_contracts/vote_chain/contract.py:163
     // itxn.Payment(
     intc_1 // pay
     itxn_field TypeEnum
-    // smart_contracts/vote_chain/contract.py:153-154
+    // smart_contracts/vote_chain/contract.py:161-162
     // # Submit inner transaction (account gets their mbr payment refunded)
     // min_txn_fee = UInt64(1000)
     intc_3 // 1000
     itxn_field Fee
-    // smart_contracts/vote_chain/contract.py:155-161
+    // smart_contracts/vote_chain/contract.py:163-169
     // itxn.Payment(
     //     receiver=account,
     //     amount=self.calc_mbr(num_bytes=UInt64(0), num_uint=UInt64(2)) - min_txn_fee,
@@ -599,7 +614,7 @@ opt_out_bool_merge@7:
     //     note="MBR refund for closing out.",
     // ).submit()
     itxn_submit
-    // smart_contracts/vote_chain/contract.py:163-164
+    // smart_contracts/vote_chain/contract.py:171-172
     // # Log info on-chain
     // log("Close-out method successful for account address: ", account)
     pushbytes "Close-out method successful for account address: "
@@ -609,42 +624,100 @@ opt_out_bool_merge@7:
     retsub
 
 
-// smart_contracts.vote_chain.contract.VoteChain.set_vote_dates(vote_start_date_str: bytes, vote_start_date_unix: uint64, vote_end_date_str: bytes, vote_end_date_unix: uint64) -> void:
-set_vote_dates:
-    // smart_contracts/vote_chain/contract.py:166-174
-    // # Define abimethod that allows the creator to set the vote dates
+// smart_contracts.vote_chain.contract.VoteChain.setup_poll(title: bytes, choice1: bytes, choice2: bytes, choice3: bytes, start_date_str: bytes, start_date_unix: uint64, end_date_str: bytes, end_date_unix: uint64) -> void:
+setup_poll:
+    // smart_contracts/vote_chain/contract.py:174-186
+    // # Define abimethod that allows the creator to set up the poll values
     // @arc4.abimethod()
-    // def set_vote_dates(
+    // def setup_poll(
     //     self,
-    //     vote_start_date_str: String,
-    //     vote_start_date_unix: UInt64,
-    //     vote_end_date_str: String,
-    //     vote_end_date_unix: UInt64,
+    //     title: Bytes,
+    //     choice1: Bytes,
+    //     choice2: Bytes,
+    //     choice3: Bytes,
+    //     start_date_str: String,
+    //     start_date_unix: UInt64,
+    //     end_date_str: String,
+    //     end_date_unix: UInt64,
     // ) -> None:
-    proto 4 0
-    // smart_contracts/vote_chain/contract.py:177
+    proto 8 0
+    // smart_contracts/vote_chain/contract.py:189
     // Txn.sender == Global.creator_address
     txn Sender
     global CreatorAddress
     ==
-    // smart_contracts/vote_chain/contract.py:175-178
+    // smart_contracts/vote_chain/contract.py:187-190
     // # Make necessary assertions to verify transaction requirements
     // assert (
     //     Txn.sender == Global.creator_address
     // ), "Only App creator can set vote dates."
     assert // Only App creator can set vote dates.
-    // smart_contracts/vote_chain/contract.py:190
-    // vote_start_date_unix < vote_end_date_unix
+    // smart_contracts/vote_chain/contract.py:192
+    // assert (title.length <= UInt64(118)), "Poll title size can not exceed 118 bytes of data per key-value."
+    frame_dig -8
+    len
+    pushint 118 // 118
+    <=
+    assert // Poll title size can not exceed 118 bytes of data per key-value.
+    // smart_contracts/vote_chain/contract.py:195
+    // choice1.length <= UInt64(116) and
+    frame_dig -7
+    len
+    pushint 116 // 116
+    <=
+    // smart_contracts/vote_chain/contract.py:195-197
+    // choice1.length <= UInt64(116) and
+    // choice2.length <= UInt64(116) and
+    // choice3.length <= UInt64(116)
+    bz setup_poll_bool_false@4
+    // smart_contracts/vote_chain/contract.py:196
+    // choice2.length <= UInt64(116) and
+    frame_dig -6
+    len
+    pushint 116 // 116
+    <=
+    // smart_contracts/vote_chain/contract.py:195-197
+    // choice1.length <= UInt64(116) and
+    // choice2.length <= UInt64(116) and
+    // choice3.length <= UInt64(116)
+    bz setup_poll_bool_false@4
+    // smart_contracts/vote_chain/contract.py:197
+    // choice3.length <= UInt64(116)
+    frame_dig -5
+    len
+    pushint 116 // 116
+    <=
+    // smart_contracts/vote_chain/contract.py:195-197
+    // choice1.length <= UInt64(116) and
+    // choice2.length <= UInt64(116) and
+    // choice3.length <= UInt64(116)
+    bz setup_poll_bool_false@4
+    intc_1 // 1
+    b setup_poll_bool_merge@5
+
+setup_poll_bool_false@4:
+    intc_0 // 0
+
+setup_poll_bool_merge@5:
+    // smart_contracts/vote_chain/contract.py:194-198
+    // assert (
+    //     choice1.length <= UInt64(116) and
+    //     choice2.length <= UInt64(116) and
+    //     choice3.length <= UInt64(116)
+    // ), "Poll choice size cannot exceed 116 bytes of data per key-value."
+    assert // Poll choice size cannot exceed 116 bytes of data per key-value.
+    // smart_contracts/vote_chain/contract.py:210
+    // start_date_unix < end_date_unix
     frame_dig -3
     frame_dig -1
     <
-    // smart_contracts/vote_chain/contract.py:189-191
+    // smart_contracts/vote_chain/contract.py:209-211
     // assert (
-    //     vote_start_date_unix < vote_end_date_unix
+    //     start_date_unix < end_date_unix
     // ), "Start date must be earlier than end date."
     assert // Start date must be earlier than end date.
-    // smart_contracts/vote_chain/contract.py:193-195
-    // assert vote_end_date_unix >= vote_start_date_unix + UInt64(
+    // smart_contracts/vote_chain/contract.py:213-215
+    // assert end_date_unix >= start_date_unix + UInt64(
     //     3 * 24 * 60 * 60
     // ), "End date must be at least 3 days later than the start date."
     frame_dig -3
@@ -653,53 +726,72 @@ set_vote_dates:
     frame_dig -1
     <=
     assert // End date must be at least 3 days later than the start date.
-    // smart_contracts/vote_chain/contract.py:197
-    // assert vote_end_date_unix - vote_start_date_unix <= UInt64(
+    // smart_contracts/vote_chain/contract.py:217
+    // assert end_date_unix - start_date_unix <= UInt64(
     frame_dig -1
     frame_dig -3
     -
-    // smart_contracts/vote_chain/contract.py:197-199
-    // assert vote_end_date_unix - vote_start_date_unix <= UInt64(
+    // smart_contracts/vote_chain/contract.py:217-219
+    // assert end_date_unix - start_date_unix <= UInt64(
     //     14 * 24 * 60 * 60
     // ), "Voting period can not exceed 14 days."
     pushint 1209600 // 1209600
     <=
     assert // Voting period can not exceed 14 days.
-    // smart_contracts/vote_chain/contract.py:201
-    // assert self.vote_dates_final == UInt64(0), "Vote dates can only be set once."
+    // smart_contracts/vote_chain/contract.py:221
+    // assert self.poll_finalized == UInt64(0), "Poll can only be setup once."
     intc_0 // 0
-    bytec_2 // "vote_dates_final"
+    bytec_2 // "poll_finalized"
     app_global_get_ex
-    assert // check self.vote_dates_final exists
+    assert // check self.poll_finalized exists
     !
-    assert // Vote dates can only be set once.
-    // smart_contracts/vote_chain/contract.py:203-204
-    // # Get and store vote dates in unix int format
-    // self.vote_start_date_unix = vote_start_date_unix
-    bytec 9 // "vote_start_date_unix"
+    assert // Poll can only be setup once.
+    // smart_contracts/vote_chain/contract.py:223-224
+    // # Update global schema values
+    // self.poll_title = title
+    pushbytes "poll_title"
+    frame_dig -8
+    app_global_put
+    // smart_contracts/vote_chain/contract.py:225
+    // self.poll_choice1 = choice1
+    pushbytes "poll_choice1"
+    frame_dig -7
+    app_global_put
+    // smart_contracts/vote_chain/contract.py:226
+    // self.poll_choice2 = choice2
+    pushbytes "poll_choice2"
+    frame_dig -6
+    app_global_put
+    // smart_contracts/vote_chain/contract.py:227
+    // self.poll_choice3 = choice3
+    pushbytes "poll_choice3"
+    frame_dig -5
+    app_global_put
+    // smart_contracts/vote_chain/contract.py:228
+    // self.poll_start_date_unix = start_date_unix
+    bytec 9 // "poll_start_date_unix"
     frame_dig -3
     app_global_put
-    // smart_contracts/vote_chain/contract.py:205
-    // self.vote_end_date_unix = vote_end_date_unix
-    bytec 8 // "vote_end_date_unix"
+    // smart_contracts/vote_chain/contract.py:229
+    // self.poll_end_date_unix = end_date_unix
+    bytec 8 // "poll_end_date_unix"
     frame_dig -1
     app_global_put
-    // smart_contracts/vote_chain/contract.py:207-208
-    // # Make vote dates final
-    // self.vote_dates_final = UInt64(1)
-    bytec_2 // "vote_dates_final"
+    // smart_contracts/vote_chain/contract.py:231
+    // self.poll_finalized = UInt64(1)  # finalize poll
+    bytec_2 // "poll_finalized"
     intc_1 // 1
     app_global_put
-    // smart_contracts/vote_chain/contract.py:210-211
+    // smart_contracts/vote_chain/contract.py:233-234
     // # Log info on-chain
-    // log("Vote start date: ", vote_start_date_str)
-    pushbytes "Vote start date: "
+    // log("Poll start date: ", start_date_str)
+    pushbytes "Poll start date: "
     frame_dig -4
     concat
     log
-    // smart_contracts/vote_chain/contract.py:212
-    // log("Vote end date: ", vote_end_date_str)
-    pushbytes "Vote end date: "
+    // smart_contracts/vote_chain/contract.py:235
+    // log("Poll end date: ", end_date_str)
+    pushbytes "Poll end date: "
     frame_dig -2
     concat
     log
@@ -708,67 +800,67 @@ set_vote_dates:
 
 // smart_contracts.vote_chain.contract.VoteChain.submit_vote(account: bytes, choice: uint64) -> void:
 submit_vote:
-    // smart_contracts/vote_chain/contract.py:214-216
+    // smart_contracts/vote_chain/contract.py:237-239
     // # Define abimethod that allows any user to submit their vote
     // @arc4.abimethod
     // def submit_vote(self, account: Account, choice: UInt64) -> None:
     proto 2 0
-    // smart_contracts/vote_chain/contract.py:217-220
+    // smart_contracts/vote_chain/contract.py:240-243
     // # Make necessary assertions to verify transaction requirements
     // assert account.is_opted_in(
     //     Application(Global.current_application_id.id)
     // ), "Account must be opted-in before voting."
     frame_dig -2
-    // smart_contracts/vote_chain/contract.py:219
+    // smart_contracts/vote_chain/contract.py:242
     // Application(Global.current_application_id.id)
     global CurrentApplicationID
-    // smart_contracts/vote_chain/contract.py:217-220
+    // smart_contracts/vote_chain/contract.py:240-243
     // # Make necessary assertions to verify transaction requirements
     // assert account.is_opted_in(
     //     Application(Global.current_application_id.id)
     // ), "Account must be opted-in before voting."
     app_opted_in
     assert // Account must be opted-in before voting.
-    // smart_contracts/vote_chain/contract.py:223
-    // Global.latest_timestamp > self.vote_start_date_unix
+    // smart_contracts/vote_chain/contract.py:246
+    // Global.latest_timestamp > self.poll_start_date_unix
     global LatestTimestamp
     intc_0 // 0
-    bytec 9 // "vote_start_date_unix"
+    bytec 9 // "poll_start_date_unix"
     app_global_get_ex
-    assert // check self.vote_start_date_unix exists
+    assert // check self.poll_start_date_unix exists
     >
-    // smart_contracts/vote_chain/contract.py:222-224
+    // smart_contracts/vote_chain/contract.py:245-247
     // assert (
-    //     Global.latest_timestamp > self.vote_start_date_unix
+    //     Global.latest_timestamp > self.poll_start_date_unix
     // ), "Voting period has not started yet."
     assert // Voting period has not started yet.
-    // smart_contracts/vote_chain/contract.py:227
-    // Global.latest_timestamp < self.vote_end_date_unix
+    // smart_contracts/vote_chain/contract.py:250
+    // Global.latest_timestamp < self.poll_end_date_unix
     global LatestTimestamp
     intc_0 // 0
-    bytec 8 // "vote_end_date_unix"
+    bytec 8 // "poll_end_date_unix"
     app_global_get_ex
-    assert // check self.vote_end_date_unix exists
+    assert // check self.poll_end_date_unix exists
     <
-    // smart_contracts/vote_chain/contract.py:226-228
+    // smart_contracts/vote_chain/contract.py:249-251
     // assert (
-    //     Global.latest_timestamp < self.vote_end_date_unix
+    //     Global.latest_timestamp < self.poll_end_date_unix
     // ), "Voting period has ended."
     assert // Voting period has ended.
-    // smart_contracts/vote_chain/contract.py:230
+    // smart_contracts/vote_chain/contract.py:253
     // assert self.local_vote_choice[account] == UInt64(
     frame_dig -2
     intc_0 // 0
     bytec_0 // "vote_choice"
     app_local_get_ex
     assert // check self.local_vote_choice exists for account
-    // smart_contracts/vote_chain/contract.py:230-232
+    // smart_contracts/vote_chain/contract.py:253-255
     // assert self.local_vote_choice[account] == UInt64(
     //     0
     // ), "This account already submitted a vote."
     !
     assert // This account already submitted a vote.
-    // smart_contracts/vote_chain/contract.py:235
+    // smart_contracts/vote_chain/contract.py:258
     // choice == UInt64(1) or choice == UInt64(2) or choice == UInt64(3)
     frame_dig -1
     intc_1 // 1
@@ -792,47 +884,47 @@ submit_vote_bool_false@4:
     intc_0 // 0
 
 submit_vote_bool_merge@5:
-    // smart_contracts/vote_chain/contract.py:234-236
+    // smart_contracts/vote_chain/contract.py:257-259
     // assert (
     //     choice == UInt64(1) or choice == UInt64(2) or choice == UInt64(3)
     // ), "Invalid choice. Can only choose between choices 1, 2, 3."
     assert // Invalid choice. Can only choose between choices 1, 2, 3.
-    // smart_contracts/vote_chain/contract.py:238-239
+    // smart_contracts/vote_chain/contract.py:261-262
     // # Mark the account as having voted
     // self.local_vote_status[account] = UInt64(1)
     frame_dig -2
     bytec 7 // "vote_status"
     intc_1 // 1
     app_local_put
-    // smart_contracts/vote_chain/contract.py:241-242
+    // smart_contracts/vote_chain/contract.py:264-265
     // # Increment count for total votes
-    // self.total_vote_count += UInt64(1)
+    // self.total_votes += UInt64(1)
     intc_0 // 0
-    bytec 6 // "total_vote_count"
+    bytec 6 // "total_votes"
     app_global_get_ex
-    assert // check self.total_vote_count exists
+    assert // check self.total_votes exists
     intc_1 // 1
     +
-    bytec 6 // "total_vote_count"
+    bytec 6 // "total_votes"
     swap
     app_global_put
-    // smart_contracts/vote_chain/contract.py:244-245
+    // smart_contracts/vote_chain/contract.py:267-268
     // # Update vote tally
     // if choice == UInt64(1):
     frame_dig 0
     bz submit_vote_else_body@7
-    // smart_contracts/vote_chain/contract.py:246
-    // self.choice1_vote_count += UInt64(1)
+    // smart_contracts/vote_chain/contract.py:269
+    // self.choice1_total += UInt64(1)
     intc_0 // 0
-    bytec_3 // "choice1_vote_count"
+    bytec_3 // "choice1_total"
     app_global_get_ex
-    assert // check self.choice1_vote_count exists
+    assert // check self.choice1_total exists
     intc_1 // 1
     +
-    bytec_3 // "choice1_vote_count"
+    bytec_3 // "choice1_total"
     swap
     app_global_put
-    // smart_contracts/vote_chain/contract.py:247
+    // smart_contracts/vote_chain/contract.py:270
     // self.local_vote_choice[account] = UInt64(1)
     frame_dig -2
     bytec_0 // "vote_choice"
@@ -841,24 +933,24 @@ submit_vote_bool_merge@5:
     b submit_vote_after_if_else@11
 
 submit_vote_else_body@7:
-    // smart_contracts/vote_chain/contract.py:248
+    // smart_contracts/vote_chain/contract.py:271
     // elif choice == UInt64(2):
     frame_dig -1
     intc_2 // 2
     ==
     bz submit_vote_else_body@9
-    // smart_contracts/vote_chain/contract.py:249
-    // self.choice2_vote_count += UInt64(1)
+    // smart_contracts/vote_chain/contract.py:272
+    // self.choice2_total += UInt64(1)
     intc_0 // 0
-    bytec 4 // "choice2_vote_count"
+    bytec 4 // "choice2_total"
     app_global_get_ex
-    assert // check self.choice2_vote_count exists
+    assert // check self.choice2_total exists
     intc_1 // 1
     +
-    bytec 4 // "choice2_vote_count"
+    bytec 4 // "choice2_total"
     swap
     app_global_put
-    // smart_contracts/vote_chain/contract.py:250
+    // smart_contracts/vote_chain/contract.py:273
     // self.local_vote_choice[account] = UInt64(2)
     frame_dig -2
     bytec_0 // "vote_choice"
@@ -867,18 +959,18 @@ submit_vote_else_body@7:
     b submit_vote_after_if_else@11
 
 submit_vote_else_body@9:
-    // smart_contracts/vote_chain/contract.py:252
-    // self.choice3_vote_count += UInt64(1)
+    // smart_contracts/vote_chain/contract.py:275
+    // self.choice3_total += UInt64(1)
     intc_0 // 0
-    bytec 5 // "choice3_vote_count"
+    bytec 5 // "choice3_total"
     app_global_get_ex
-    assert // check self.choice3_vote_count exists
+    assert // check self.choice3_total exists
     intc_1 // 1
     +
-    bytec 5 // "choice3_vote_count"
+    bytec 5 // "choice3_total"
     swap
     app_global_put
-    // smart_contracts/vote_chain/contract.py:253
+    // smart_contracts/vote_chain/contract.py:276
     // self.local_vote_choice[account] = UInt64(3)
     frame_dig -2
     bytec_0 // "vote_choice"
@@ -886,14 +978,14 @@ submit_vote_else_body@9:
     app_local_put
 
 submit_vote_after_if_else@11:
-    // smart_contracts/vote_chain/contract.py:255-256
+    // smart_contracts/vote_chain/contract.py:278-279
     // # Log info on-chain
     // log("Vote submitted successfully for account address: ", account)
     pushbytes "Vote submitted successfully for account address: "
     frame_dig -2
     concat
     log
-    // smart_contracts/vote_chain/contract.py:257
+    // smart_contracts/vote_chain/contract.py:280
     // log("Vote submitted for choice number: ", choice)
     frame_dig -1
     itob
@@ -906,23 +998,23 @@ submit_vote_after_if_else@11:
 
 // smart_contracts.vote_chain.contract.VoteChain.terminate() -> void:
 terminate:
-    // smart_contracts/vote_chain/contract.py:259-261
+    // smart_contracts/vote_chain/contract.py:282-284
     // # Define abimethod that allows the creator to delete App and get their global schema MBR cost refunded
     // @arc4.abimethod(allow_actions=["DeleteApplication"])
     // def terminate(self) -> None:
     proto 0 0
-    // smart_contracts/vote_chain/contract.py:264
+    // smart_contracts/vote_chain/contract.py:287
     // Txn.sender == Global.creator_address
     txn Sender
     global CreatorAddress
     ==
-    // smart_contracts/vote_chain/contract.py:262-265
+    // smart_contracts/vote_chain/contract.py:285-288
     // # Make necessary assertions to verify transaction requirements
     // assert (
     //     Txn.sender == Global.creator_address
     // ), "Only App creator can terminate the App."
     assert // Only App creator can terminate the App.
-    // smart_contracts/vote_chain/contract.py:269-275
+    // smart_contracts/vote_chain/contract.py:292-298
     // itxn.Payment(
     //     receiver=Global.creator_address,
     //     amount=self.calc_mbr(num_bytes=UInt64(0), num_uint=UInt64(8)) - min_txn_fee,
@@ -931,41 +1023,41 @@ terminate:
     //     note="MBR refund for deleting App.",
     // ).submit()
     itxn_begin
-    // smart_contracts/vote_chain/contract.py:270
+    // smart_contracts/vote_chain/contract.py:293
     // receiver=Global.creator_address,
     global CreatorAddress
-    // smart_contracts/vote_chain/contract.py:271
+    // smart_contracts/vote_chain/contract.py:294
     // amount=self.calc_mbr(num_bytes=UInt64(0), num_uint=UInt64(8)) - min_txn_fee,
     intc_0 // 0
     pushint 8 // 8
     callsub calc_mbr
-    // smart_contracts/vote_chain/contract.py:267-268
+    // smart_contracts/vote_chain/contract.py:290-291
     // # Submit inner transaction (creator gets their mbr payment refunded)
     // min_txn_fee = UInt64(1000)
     intc_3 // 1000
-    // smart_contracts/vote_chain/contract.py:271
+    // smart_contracts/vote_chain/contract.py:294
     // amount=self.calc_mbr(num_bytes=UInt64(0), num_uint=UInt64(8)) - min_txn_fee,
     -
-    // smart_contracts/vote_chain/contract.py:272
+    // smart_contracts/vote_chain/contract.py:295
     // sender=Global.current_application_address,
     global CurrentApplicationAddress
-    // smart_contracts/vote_chain/contract.py:274
+    // smart_contracts/vote_chain/contract.py:297
     // note="MBR refund for deleting App.",
     pushbytes "MBR refund for deleting App."
     itxn_field Note
     itxn_field Sender
     itxn_field Amount
     itxn_field Receiver
-    // smart_contracts/vote_chain/contract.py:269
+    // smart_contracts/vote_chain/contract.py:292
     // itxn.Payment(
     intc_1 // pay
     itxn_field TypeEnum
-    // smart_contracts/vote_chain/contract.py:267-268
+    // smart_contracts/vote_chain/contract.py:290-291
     // # Submit inner transaction (creator gets their mbr payment refunded)
     // min_txn_fee = UInt64(1000)
     intc_3 // 1000
     itxn_field Fee
-    // smart_contracts/vote_chain/contract.py:269-275
+    // smart_contracts/vote_chain/contract.py:292-298
     // itxn.Payment(
     //     receiver=Global.creator_address,
     //     amount=self.calc_mbr(num_bytes=UInt64(0), num_uint=UInt64(8)) - min_txn_fee,
@@ -974,14 +1066,14 @@ terminate:
     //     note="MBR refund for deleting App.",
     // ).submit()
     itxn_submit
-    // smart_contracts/vote_chain/contract.py:280
+    // smart_contracts/vote_chain/contract.py:303
     // Global.current_application_id.id,
     global CurrentApplicationID
     itob
     pushbytes "Termination method successful for App ID: "
     swap
     concat
-    // smart_contracts/vote_chain/contract.py:277-281
+    // smart_contracts/vote_chain/contract.py:300-304
     // # Log info on-chain
     // log(
     //     "Termination method successful for App ID: ",

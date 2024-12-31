@@ -2,18 +2,18 @@
 
 import { PollProps } from '../types'
 
-export const convertVoteDateToUnixxx = (dateStr: string): number => {
+export const convertVoteDateToUnix = (dateStr: string): number => {
   const [year, month, day] = dateStr.split('-')
   const date = new Date(Number(year), Number(month) - 1, Number(day))
   return Math.floor(date.getTime() / 1000)
 }
 
-export const formatVoteDateStrOnChainnn = (dateStr: string): string => {
+export const formatVoteDateStrOnChain = (dateStr: string): string => {
   const [year, month, day] = dateStr.split('-') // Expected input: "YYYY-MM-DD"
   return `${day}/${month}/${year}` // Expected output: "DD/MM/YYYY"
 }
 
-export const validateVoteDatesss = (startUnix: number, endUnix: number): string => {
+export const validateVoteDates = (startUnix: number, endUnix: number): string => {
   // const normalizeToStartOfDay = (timestamp: number): number => Math.floor(new Date(timestamp * 1000).setHours(0, 0, 0, 0) / 1000)
   // const currentUnix = Math.floor(Date.now() / 1000) // current unix timestamp
   const minVotePeriod = 3 * 24 * 60 * 60 // 3 days in seconds
@@ -62,9 +62,9 @@ export const processPollInputs = (
     return false
   }
 
-  const startDateUnix = convertVoteDateToUnixxx(startDate)
-  const endDateUnix = convertVoteDateToUnixxx(endDate)
-  const validationError = validateVoteDatesss(startDateUnix, endDateUnix)
+  const startDateUnix = convertVoteDateToUnix(startDate)
+  const endDateUnix = convertVoteDateToUnix(endDate)
+  const validationError = validateVoteDates(startDateUnix, endDateUnix)
   if (validationError !== 'vote dates valid!') {
     setUserMsg({ msg: validationError, style: 'text-red-700 font-bold' })
     return false
@@ -75,11 +75,11 @@ export const processPollInputs = (
   return true
 }
 
-export const isVotingOpennn = (pollParams: PollProps): { isOpen: boolean; message: string } => {
+export const isVotingOpen = (pollParams: PollProps): { isOpen: boolean; message: string } => {
   const { startDate, endDate } = pollParams
 
-  const startUnix = convertVoteDateToUnixxx(startDate)
-  const endUnix = convertVoteDateToUnixxx(endDate)
+  const startUnix = convertVoteDateToUnix(startDate)
+  const endUnix = convertVoteDateToUnix(endDate)
 
   // Get the current Unix time
   const currentUnix = Math.floor(Date.now() / 1000)
@@ -92,7 +92,7 @@ export const isVotingOpennn = (pollParams: PollProps): { isOpen: boolean; messag
   }
 }
 
-export const setUserVisualAidForDatesss = (date: string, pollParams: PollProps) => {
+export const setUserVisualAidForDates = (date: string, pollParams: PollProps) => {
   if (date === pollParams.startDate || date === pollParams.endDate) {
     const { startDate, endDate } = pollParams
 
@@ -100,10 +100,10 @@ export const setUserVisualAidForDatesss = (date: string, pollParams: PollProps) 
       return 'border-2 border-red-500' // Dates are missing
     }
 
-    const startUnix = convertVoteDateToUnixxx(startDate)
-    const endUnix = convertVoteDateToUnixxx(endDate)
+    const startUnix = convertVoteDateToUnix(startDate)
+    const endUnix = convertVoteDateToUnix(endDate)
 
-    const validationMessage = validateVoteDatesss(startUnix, endUnix)
+    const validationMessage = validateVoteDates(startUnix, endUnix)
     return validationMessage === 'vote dates valid!' ? 'border-2 border-green-500' : 'border-2 border-red-500' // Valid or invalid dates
   }
 
@@ -119,10 +119,10 @@ export const confirmPollValidityyy = (pollParams: PollProps, setUserMsg: (notifi
   }
 
   // Ensure start date is before end date and within the valid range
-  const startUnix = convertVoteDateToUnixxx(startDate)
-  const endUnix = convertVoteDateToUnixxx(endDate)
+  const startUnix = convertVoteDateToUnix(startDate)
+  const endUnix = convertVoteDateToUnix(endDate)
 
-  const validationMessage = validateVoteDatesss(startUnix, endUnix)
+  const validationMessage = validateVoteDates(startUnix, endUnix)
   if (validationMessage !== 'vote dates valid!') {
     setUserMsg({ msg: validationMessage, style: 'text-red-700 font-bold' }) // Log the validation failure message
     return false // Return false if the validation fails

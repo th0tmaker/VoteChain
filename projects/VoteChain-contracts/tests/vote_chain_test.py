@@ -105,8 +105,8 @@ def test_global_storage_mbr(
         algorand,
         creator,
         app_client.app_address,
-        428_000,
-        1000,  # 0.428 ALGO for every key-value + 0.001 extra fee
+        628_000,
+        1000,  # 0.628 ALGO for every key-value + 0.001 extra fee
     )
 
     # Use App client to send a group transaction that executes the 'global_storage_mbr' abimethod and pays the MBR
@@ -216,33 +216,53 @@ def test_opt_out_local_storage(
 
 
 # Test case for set vote dates method
-def test_set_vote_dates(app_client: VoteChainClient) -> None:
+def test_setup_poll(algorand: AlgorandClient, app_client: VoteChainClient) -> None:
     date_format = "%m/%d/%Y"  # define the desired date format ~ motnh/day/year
 
+    title = (
+    b"01234567890123456789012345678901234567890123456789012345678"
+    b"90123456789012345678901234567890123456789012345678901234567")  # 118 bytes in size
+
+    choice1 = (
+    b"0123456789012345678901234567890123456789012345678901234567"
+    b"8901234567890123456789012345678901234567890123456789012345") # 116 bytes in size
+
+    choice2 = b"Twice"
+    choice3 = b""
+
     # Choose a start date that won't trip method assertions
-    vote_start_date_str = "12/22/2024"  #  write date as a string in specified format
-    vote_start_date_unix = int(
-        time.mktime(time.strptime(vote_start_date_str, date_format))
-    )  # Obtain start date unnix via time module by passing the start date string and the date format
+    start_date_str = "12/22/2024"  #  write date as a string in specified format
+    start_date_unix = int(
+        time.mktime(time.strptime(start_date_str, date_format))
+    )  # Obtain start date unix via time module by passing the start date string and the date format
 
     # Choose an end date that won't trip method assertions
-    vote_end_date_str = "01/05/2025"  #  write date as a string in specified format
-    vote_end_date_unix = int(
-        time.mktime(time.strptime(vote_end_date_str, date_format))
-    )  # Obtain end date unnix via time module by passing the start date string and the date format
+    end_date_str = "01/05/2025"  #  write date as a string in specified format
+    end_date_unix = int(
+        time.mktime(time.strptime(end_date_str, date_format))
+    )  # Obtain end date unix via time module by passing the start date string and the date format
 
     # Use App client to send a transaction that executes the 'set_vote_dates' abimethod
-    set_vote_date_txn = app_client.set_vote_dates(
-        vote_start_date_str=vote_start_date_str,
-        vote_start_date_unix=vote_start_date_unix,
-        vote_end_date_str=vote_end_date_str,
-        vote_end_date_unix=vote_end_date_unix,
+    setup_poll_txn = app_client.setup_poll(
+        title=title,
+        choice1=choice1,
+        choice2=choice2,
+        choice3=choice3,
+        start_date_str=start_date_str,
+        start_date_unix=start_date_unix,
+        end_date_str=end_date_str,
+        end_date_unix=end_date_unix,
     )
 
     # Verify transaction was confirmed by the network
     assert (
-        set_vote_date_txn.confirmed_round
-    ), "Set vote dates transaction round successfully confirmed."
+        setup_poll_txn.confirmed_round
+    ), "Setup poll transaction round successfully confirmed."
+
+    # Log
+    logger.info("TEST SETUP POLL BELOW:")
+    get_txn_logs(algorand, setup_poll_txn.tx_id, logger)
+
 
 
 # Test case for submit vote method

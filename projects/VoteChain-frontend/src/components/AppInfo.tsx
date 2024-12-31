@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { AppProps } from '../types'
-import { formatVoteDateStrOnChainnn } from '../utils/dates'
+import { formatVoteDateStrOnChain } from '../utils/dates'
 
 export const AppInfo = ({
   app,
@@ -46,11 +46,11 @@ export const AppInfo = ({
         </div>
         <div>
           <span className="text-black text-[18px] font-bold italic">Vote Start Date: </span>
-          <span className="text-green-800 text-[18px] font-bold">{formatVoteDateStrOnChainnn(app.poll.startDate)}</span>
+          <span className="text-green-800 text-[18px] font-bold">{formatVoteDateStrOnChain(app.poll.startDate)}</span>
         </div>
         <div>
           <span className="text-black text-[18px] font-bold italic">Vote End Date: </span>
-          <span className="text-green-800 text-[18px] font-bold">{formatVoteDateStrOnChainnn(app.poll.endDate)}</span>
+          <span className="text-green-800 text-[18px] font-bold">{formatVoteDateStrOnChain(app.poll.endDate)}</span>
         </div>
       </div>
     </div>
